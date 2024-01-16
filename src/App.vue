@@ -5,9 +5,9 @@ import Header from "./components/Header.vue";
 </script>
 
 <template>
-  <Header />
-
-  <RouterView />
+  <RouterView v-slot="{ Component }">
+    <component :is="Component" />
+  </RouterView>
 </template>
 
 <style scoped></style>
