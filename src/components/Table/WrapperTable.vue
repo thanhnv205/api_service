@@ -18,18 +18,17 @@ import { ref, computed, defineProps } from "vue";
 import Switch from "@/components/customInput/Switch.vue";
 const checked = ref(true);
 
-const props = defineProps(["columns", "data"]);
-console.log("props.columns", props.columns);
+const props = defineProps(["columns", "data", "id_row"]);
 
 const tableData = computed(() => {
   return props.data.map((row, i) => {
     const rowData = {};
     props.columns.forEach((column) => {
-      console.log(row[column.key]);
-      rowData[column.key] = row[column.key];
+      rowData[column.dataIndex] = row[column.dataIndex];
     });
 
     return {
+      key: row[props.id_row] || i,
       ...rowData,
     };
   });

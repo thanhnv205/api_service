@@ -3,6 +3,7 @@
     :columns="columns"
     :data="newsStore.apiData"
     :row-selection="rowSelection"
+    id_row="id_post"
   />
 </template>
 
@@ -41,24 +42,25 @@ const columns = [
   {
     title: "Tiêu đề",
     width: "15%",
-    key: "title",
+    dataIndex: "title",
   },
   {
     title: "Hình ảnh",
     width: "12%",
     align: "center",
-    key: "image",
+    dataIndex: "image",
   },
   {
     title: "Nội dung",
+    dataIndex: "description",
     width: "58%",
-    key: "description",
   },
 
   {
     title: "Trạng thái",
+    dataIndex: "active",
     align: "center",
-    key: "active",
+
     fixed: "right",
   },
 ];
