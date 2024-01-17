@@ -1,5 +1,9 @@
 <template>
-  <Table :data="newsStore.apiData" />
+  <Table
+    :columns="columns"
+    :data="newsStore.apiData"
+    :row-selection="rowSelection"
+  />
 </template>
 
 <script setup>
@@ -22,6 +26,42 @@ const fetchData = async () => {
 onMounted(() => {
   fetchData();
 });
+
+const rowSelection = {
+  onChange: (selectedRowKeys, selectedRows) => {
+    console.log(
+      `selectedRowKeys: ${selectedRowKeys}`,
+      "selectedRows: ",
+      selectedRows
+    );
+  },
+};
+
+const columns = [
+  {
+    title: "Tiêu đề",
+    width: "15%",
+    key: "title",
+  },
+  {
+    title: "Hình ảnh",
+    width: "12%",
+    align: "center",
+    key: "image",
+  },
+  {
+    title: "Nội dung",
+    width: "58%",
+    key: "description",
+  },
+
+  {
+    title: "Trạng thái",
+    align: "center",
+    key: "active",
+    fixed: "right",
+  },
+];
 </script>
 
 <style>

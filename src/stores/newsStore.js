@@ -1,4 +1,3 @@
-// newsStore.js
 import { defineStore } from "pinia";
 
 export const useNewsStore = defineStore({

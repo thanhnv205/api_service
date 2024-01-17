@@ -1,36 +1,38 @@
 <template>
   <a-table
-    :columns="column"
-    :data-source="data"
+    :columns="props.columns"
+    :data-source="tableData"
     :pagination="{ showSizeChanger: false }"
-    :scroll="{ y: 240 }"
-  />
+  >
+    <template #bodyCell="{ column }">
+      <template v-if="column.key === 'operation'">
+        <Switch size="small" />
+        <!-- <a-switch v-model:checked="checked" size="small" /> -->
+      </template>
+    </template>
+  </a-table>
 </template>
+
 <script setup>
-const props = defineProps(["data"]);
+import { ref, computed, defineProps } from "vue";
+import Switch from "@/components/customInput/Switch.vue";
+const checked = ref(true);
 
-console.log(props.data);
+const props = defineProps(["columns", "data"]);
+console.log("props.columns", props.columns);
 
-const column = [
-  {
-    title: "Name",
-    dataIndex: "name",
-    width: 150,
-  },
-  {
-    title: "Age",
-    dataIndex: "age",
-    width: 150,
-  },
-  {
-    title: "Address",
-    dataIndex: "address",
-  },
-];
-const data = column.map((_, i) => ({
-  key: i,
-  name: `Edward King ${i}`,
-  age: 32,
-  address: `London, Park Lane no. ${i}`,
-}));
+const tableData = computed(() => {
+  return props.data.map((row, i) => {
+    const rowData = {};
+    props.columns.forEach((column) => {
+      console.log(row[column.key]);
+      rowData[column.key] = row[column.key];
+    });
+
+    return {
+      ...rowData,
+    };
+  });
+});
+console.log("props.tableData", tableData);
 </script>
