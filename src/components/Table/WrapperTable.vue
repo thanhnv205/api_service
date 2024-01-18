@@ -4,10 +4,13 @@
     :data-source="tableData"
     :pagination="{ showSizeChanger: false }"
   >
-    <template #bodyCell="{ column }">
-      <template v-if="column.key === 'operation'">
+    <template v-slot:bodyCell="{ text, record, index, column }">
+      <template v-if="column.dataIndex === 'image'">
+        <img :src="text" :alt="record.title" class="image-coll" />
+      </template>
+
+      <template v-if="column.dataIndex === 'active'">
         <Switch size="small" />
-        <!-- <a-switch v-model:checked="checked" size="small" /> -->
       </template>
     </template>
   </a-table>
@@ -21,17 +24,22 @@ const checked = ref(true);
 const props = defineProps(["columns", "data", "id_row"]);
 
 const tableData = computed(() => {
-  return props.data.map((row, i) => {
+  return props.data.map((row, index) => {
     const rowData = {};
     props.columns.forEach((column) => {
       rowData[column.dataIndex] = row[column.dataIndex];
     });
 
     return {
-      key: row[props.id_row] || i,
+      key: row[props.id_row] || index,
       ...rowData,
     };
   });
 });
-console.log("props.tableData", tableData);
 </script>
+
+<style scoped lang="scss">
+.image-coll {
+  max-width: 100px;
+}
+</style>

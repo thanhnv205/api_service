@@ -1,4 +1,5 @@
 <template>
+  <FormToolbar />
   <Table
     :columns="columns"
     :data="newsStore.apiData"
@@ -10,8 +11,10 @@
 <script setup>
 import { onMounted } from "vue";
 import axios from "axios";
-import Table from "@/components/Table/WrapperTable.vue";
 import { useNewsStore } from "@/stores/newsStore";
+
+import FormToolbar from "./component/FormToolbar.vue";
+import Table from "@/components/Table/WrapperTable.vue";
 
 const newsStore = useNewsStore();
 
@@ -41,12 +44,12 @@ const rowSelection = {
 const columns = [
   {
     title: "Tiêu đề",
-    width: "15%",
+    width: "12%",
     dataIndex: "title",
   },
   {
     title: "Hình ảnh",
-    width: "12%",
+    width: "15%",
     align: "center",
     dataIndex: "image",
   },
@@ -60,7 +63,6 @@ const columns = [
     title: "Trạng thái",
     dataIndex: "active",
     align: "center",
-
     fixed: "right",
   },
 ];

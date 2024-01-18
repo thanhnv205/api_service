@@ -1,1 +1,5 @@
 /* @import "./base.css"; */
+:where(.primary-button) {
+  background-color: red;
+  color: white;
+}
