@@ -13,14 +13,14 @@ import { onMounted } from "vue";
 import axios from "axios";
 import { useNewsStore } from "@/stores/newsStore";
 
-import FormToolbar from "./component/FormToolbar.vue";
+import FormToolbar from "./components/FormToolbar.vue";
 import Table from "@/components/Table/WrapperTable.vue";
 
 const newsStore = useNewsStore();
 
 const fetchData = async () => {
   try {
-    const { data } = await axios.get("http://localhost:5000/v1/news");
+    const { data } = await axios.get("http://localhost:5000/v1/category-news");
     newsStore.setApiData(data);
   } catch (error) {
     console.error(error);
@@ -43,22 +43,20 @@ const rowSelection = {
 
 const columns = [
   {
-    title: "Tiêu đề",
-    width: "12%",
-    dataIndex: "title",
-  },
-  {
-    title: "Hình ảnh",
+    title: "Tên danh mục",
     width: "15%",
-    align: "center",
-    dataIndex: "image",
+    dataIndex: "category_name",
   },
   {
-    title: "Nội dung",
+    title: "Mô tả",
     dataIndex: "description",
-    width: "58%",
+    width: "50%",
   },
-
+  {
+    title: "Slug",
+    dataIndex: "slug",
+    width: "25%",
+  },
   {
     title: "Trạng thái",
     dataIndex: "active",

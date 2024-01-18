@@ -12,12 +12,24 @@ const router = createRouter({
         {
           path: "/news",
           name: "news",
-          component: () => import("@/views/NewsView/index.vue"),
+          component: () => import("@/views/news/NewsView/index.vue"),
         },
         {
           path: "/news/create",
           name: "create news",
-          component: () => import("@/views/NewsView/CreatePage.vue"),
+          component: () => import("@/views/news/NewsView/CreatePage.vue"),
+        },
+
+        {
+          path: "/news/category",
+          name: "category news",
+          component: () => import("@/views/news/CategoryNewView/index.vue"),
+        },
+        {
+          path: "/news/category/create",
+          name: "create category news",
+          component: () =>
+            import("@/views/news/CategoryNewView/CreatePage.vue"),
         },
       ],
     },

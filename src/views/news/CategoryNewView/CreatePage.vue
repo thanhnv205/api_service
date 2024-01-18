@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-import FormCreate from "./component/FormCreate.vue";
+import FormCreate from "./components/FormCreate.vue";
 </script>
