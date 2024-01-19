@@ -1,12 +1,18 @@
 <template>
-  <a-switch :checked="checked" :size="size" class="custom-switch" />
+  <a-switch
+    :name="name"
+    :checked="checked"
+    :size="size"
+    class="custom-switch"
+    @change="handleChange"
+  />
 </template>
-<script setup>
-const { size, checked } = defineProps(["size", "checked"]);
-</script>
 
-<style lang="scss" scoped>
-.custom-switch .ant-switch-inner {
-  background-color: #ccc;
-}
-</style>
+<script setup>
+const { name, size, checked } = defineProps(["name", "size", "checked"]);
+const emit = defineEmits();
+
+const handleChange = (isChecked) => {
+  emit("update:checked", isChecked);
+};
+</script>

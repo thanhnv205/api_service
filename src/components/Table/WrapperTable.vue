@@ -10,7 +10,7 @@
       </template>
 
       <template v-if="column.dataIndex === 'active'">
-        <Switch size="small" />
+        <FormSwitch size="small" />
       </template>
     </template>
   </a-table>
@@ -18,7 +18,7 @@
 
 <script setup>
 import { ref, computed, defineProps } from "vue";
-import Switch from "@/components/customInput/Switch.vue";
+import FormSwitch from "@/components/customInput/FormSwitch.vue";
 const checked = ref(true);
 
 const props = defineProps(["columns", "data", "id_row"]);

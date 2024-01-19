@@ -4,7 +4,7 @@
     :class="{ 'has-error': !!errorMessage, success: meta.valid }"
   >
     <label :for="name">{{ label }}</label>
-    <input
+    <a-input
       :name="name"
       :id="name"
       :type="type"
@@ -61,17 +61,13 @@ label {
 
 input {
   border-radius: 5px;
-  border: 2px solid transparent;
+  border: 2px solid #f2f5f7;
   padding: 15px 10px;
   outline: none;
   background-color: #f2f5f7;
   width: 100%;
   transition: border-color 0.3s ease-in-out, color 0.3s ease-in-out,
     background-color 0.3s ease-in-out;
-}
-
-input:focus {
-  border-color: var(--primary-color);
 }
 
 .help-message {
