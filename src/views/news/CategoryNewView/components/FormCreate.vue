@@ -1,35 +1,54 @@
 <template>
   <form @submit.prevent="onSubmit" :validation-schema="validationSchema">
-    <div class="status">
-      <span class="heading-small">Trạng thái</span>
-      <FormSwitch
-        name="active"
-        :checked="values.active"
-        size="small"
-        v-bind="{ 'onUpdate:checked': handleSwitchChange }"
-      />
-    </div>
+    <a-row :gutter="20">
+      <a-col :span="24">
+        <div class="status">
+          <span class="heading-small">Trạng thái</span>
+          <FormSwitch
+            name="active"
+            :checked="values.active"
+            v-bind="{ 'onUpdate:checked': handleSwitchChange }"
+          />
+        </div>
+      </a-col>
 
-    <InputField
-      name="category_name"
-      type="text"
-      label="Tên danh mục"
-      placeholder="Tên danh mục"
-      @input="handleChangeSlug"
-    />
-    <InputField
-      name="slug"
-      type="text"
-      label="Slug (url)"
-      placeholder="Slug (url)"
-    />
-    <TextAreaField
-      name="description"
-      :rows="4"
-      label="Mô tả"
-      placeholder="Mô tả"
-    />
-    <Button html-type="submit" class="submit-btn" type="primary" text="Lưu" />
+      <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
+        <InputField
+          name="category_name"
+          type="text"
+          label="Tên danh mục"
+          placeholder="Tên danh mục"
+          @input="handleChangeSlug"
+        />
+      </a-col>
+
+      <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
+        <InputField
+          name="slug"
+          type="text"
+          label="Slug (url)"
+          placeholder="Slug (url)"
+        />
+      </a-col>
+
+      <a-col :span="24">
+        <TextAreaField
+          name="description"
+          :rows="4"
+          label="Mô tả"
+          placeholder="Mô tả"
+        />
+      </a-col>
+
+      <a-col :span="24" class="gutter-row">
+        <FormButton
+          html-type="submit"
+          class="submit-btn"
+          type="primary"
+          text="Lưu"
+        />
+      </a-col>
+    </a-row>
   </form>
 </template>
 
@@ -40,7 +59,7 @@ import { useForm } from "vee-validate";
 
 import InputField from "@/components/customInput/InputField.vue";
 import TextAreaField from "@/components/customInput/TextAreaField.vue";
-import Button from "@/components/customInput/Button.vue";
+import FormButton from "@/components/customInput/FormButton.vue";
 import FormSwitch from "@/components/customInput/FormSwitch.vue";
 import { toSlug } from "@/utils/helper.js";
 import axios from "axios";
@@ -87,3 +106,15 @@ const onSubmit = handleSubmit(async (data) => {
   }
 });
 </script>
+
+<style lang="scss" scoped>
+.status {
+  margin: 20px 0;
+}
+.gutter-row {
+  text-align: right;
+}
+.submit-btn {
+  margin-top: 30px;
+}
+</style>

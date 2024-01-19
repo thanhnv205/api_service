@@ -3,23 +3,23 @@
     <a-col :span="8"></a-col>
 
     <a-col :span="10" :offset="6" class="toolbar-left">
-      <Button text="Thêm mới" type="primary" size="large">
+      <FormButton text="Thêm mới" type="primary" size="large">
         <template #icon>
           <PlusCircleOutlined />
         </template>
-      </Button>
+      </FormButton>
 
-      <Button text="Chỉnh sửa" type="primary" size="large">
+      <FormButton text="Chỉnh sửa" type="primary" size="large">
         <template #icon>
           <EditOutlined />
         </template>
-      </Button>
+      </FormButton>
     </a-col>
   </a-row>
 </template>
 
 <script setup>
-import Button from "@/components/customInput/Button.vue";
+import FormButton from "@/components/customInput/FormButton.vue";
 import { PlusCircleOutlined, EditOutlined } from "@ant-design/icons-vue";
 </script>
 

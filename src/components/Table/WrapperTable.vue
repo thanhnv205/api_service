@@ -17,9 +17,8 @@
 </template>
 
 <script setup>
-import { ref, computed, defineProps } from "vue";
+import { computed, defineProps } from "vue";
 import FormSwitch from "@/components/customInput/FormSwitch.vue";
-const checked = ref(true);
 
 const props = defineProps(["columns", "data", "id_row"]);
 

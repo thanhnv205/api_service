@@ -54,15 +54,7 @@
           <a-breadcrumb-item>List</a-breadcrumb-item>
           <a-breadcrumb-item>App</a-breadcrumb-item>
         </a-breadcrumb> -->
-        <a-layout-content
-          :style="{
-            background: '#fff',
-            padding: '24px',
-            margin: 0,
-            minHeight: '280px',
-            marginTop: '20px',
-          }"
-        >
+        <a-layout-content class="custom-layout">
           <router-view v-slot="{ Component }">
             <component :is="Component" />
           </router-view>
@@ -82,6 +74,13 @@ const openKeys = ref(["sub1"]);
 </script>
 
 <style scoped>
+.custom-layout {
+  background: var(--bg-color-primary);
+  padding: 40px;
+  margin: 0;
+  min-height: 280px;
+  margin-top: 40px;
+}
 #components-layout-demo-top-side-2 .logo {
   float: left;
   width: 120px;

@@ -1,4 +1,4 @@
-/* @import "./base.css"; */
+@import "./base.css";
 :where(.primary-button) {
   background-color: red;
   color: white;
@@ -10,4 +10,6 @@
 .heading-small {
   font-weight: 600;
   margin-right: 20px;
+  font-size: 15px;
+  line-height: 1;
 }

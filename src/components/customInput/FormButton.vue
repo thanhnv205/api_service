@@ -18,5 +18,6 @@ const defaultSize = size || "large";
   padding: 0 25px;
   border-radius: 5px;
   background-color: #ccc;
+  min-width: 100px;
 }
 </style>
