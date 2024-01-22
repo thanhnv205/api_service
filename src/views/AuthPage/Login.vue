@@ -1,34 +1,37 @@
 <template>
   <section class="container">
     <div class="wrapper-login">
-      <a-form :model="formState" name="basic" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }" autocomplete="off"
-        @finish="onFinish" @finishFailed="onFinishFailed">
+      <a-form :model="formState" name="normal_login" class="login-form" @finish="onFinish" @finishFailed="onFinishFailed">
         <a-form-item name="username" :rules="[{ required: true, message: 'Please input your username!' }]">
-          <a-input v-model:value="formState.username" placeholder="Email" />
+          <a-input class="form-input" v-model:value="formState.username" placeholder="Tên đăng nhập" />
         </a-form-item>
 
-        <a-form-item name="password" :rules="[{ required: true, message: 'Please input your password!' }]">
-          <a-input-password v-model:value="formState.password" placeholder="Password" />
+        <a-form-item class="custom-password" name="password"
+          :rules="[{ required: true, message: 'Please input your password!' }]">
+          <a-input-password class="form-input" v-model:value="formState.password" placeholder="Mật khẩu" />
         </a-form-item>
-
-        <a-form-item name="remember" :wrapper-col="{ offset: 8, span: 16 }">
-          <a-checkbox v-model:checked="formState.remember">Remember me</a-checkbox>
-        </a-form-item>
-
-
-
 
         <a-form-item>
-          <a-button class="btn" html-type="submit" type="primary" shape="round" :size="size">
-            Submit
+          <a-form-item name="remember" no-style>
+            <FormCheckbox v-model:checked="formState.remember" label="Remember me" />
+          </a-form-item>
+          <a class="wrapper-login-forgot" href="">Forgot password</a>
+        </a-form-item>
+
+        <a-form-item>
+          <a-button :disabled="disabled" type="primary" html-type="submit" class="wrapper-login-button">
+            Log in
           </a-button>
         </a-form-item>
       </a-form>
     </div>
   </section>
 </template>
+
 <script setup>
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
+import FormCheckbox from '@/components/customInput/FormCheckbox.vue'
+
 const formState = reactive({
   username: '',
   password: '',
@@ -40,6 +43,9 @@ const onFinish = values => {
 const onFinishFailed = errorInfo => {
   console.log('Failed:', errorInfo);
 };
+const disabled = computed(() => {
+  return !(formState.username && formState.password);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -47,10 +53,78 @@ const onFinishFailed = errorInfo => {
   display: flex;
   height: 100vh;
   align-items: center;
-  justify-content: center
+  justify-content: center;
+  background-color: #1d202d;
+
 }
 
 .wrapper-login {
-  width: 500px
+  min-width: 450px;
+  min-height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  border-radius: 30px;
+  background-color: #242a37;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+  form {
+    width: 100%;
+  }
+
+  &-forgot {
+    color: #fff;
+    float: right;
+    font-style: italic;
+  }
+
+  &-button {
+    width: 100%;
+    font-size: 18px;
+    border-color: transparent;
+    background-color: #33b574;
+    color: #fff;
+    min-height: 50px;
+  }
+}
+
+.form-input {
+  width: 100%;
+  font-size: 15px;
+  border-radius: 5px;
+  color: #fff;
+  outline: none;
+  padding: 10px 20px;
+
+  border: 1px solid transparent;
+  background-color: #2a3141;
+  transition: border-color 0.3s ease-in-out, color 0.3s ease-in-out,
+    background-color 0.3s ease-in-out;
+
+  &:hover,
+  &:focus {
+    border-color: #374957;
+    box-shadow: none;
+  }
+
+  &::placeholder {
+    color: #fff;
+  }
+}
+
+::v-deep(.custom-password) {
+  input {
+    background-color: #2a3141;
+    color: #fff;
+
+    &::placeholder {
+      color: #fff
+    }
+  }
+
+  svg {
+    fill: #fff;
+  }
 }
 </style>

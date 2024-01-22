@@ -2,53 +2,64 @@
   <a-layout>
     <Header :selectedKeys="selectedKeys1" />
 
-    <a-layout>
-      <!-- <a-layout-sider width="200" style="background: #fff">
-        <a-menu
-          v-model:selectedKeys="selectedKeys2"
-          v-model:openKeys="openKeys"
-          mode="inline"
-          :style="{ height: '100%', borderRight: 0 }"
-        >
+    <a-layout style="padding: 20px;">
+      <a-layout-sider width="280">
+        <a-menu v-model:selectedKeys="selectedKeys2" v-model:openKeys="openKeys" mode="inline"
+          :style="{ height: '100%', borderRight: 0 }">
+
+          <HeadingLine title='ACCOUNT & ROLE' :style="{ padding: '0 20px 0 28px' }" />
+
+          <a-menu-item key="6">Tài khoản</a-menu-item>
+          <a-menu-item key="5">Phân quyền</a-menu-item>
+
+          <HeadingLine title='SYSTEM' :style="{ padding: '0 20px 0 28px' }" />
+
+          <a-menu-item key="6">Danh sách menu</a-menu-item>
+          <a-menu-item key="5">Loại menu</a-menu-item>
+
+          <HeadingLine title='WEBSITE' :style="{ padding: '0 20px 0 28px' }" />
+
           <a-sub-menu key="sub1">
             <template #title>
               <span>
                 <user-outlined />
-                subnav 1
+                Tin tức
               </span>
             </template>
-            <a-menu-item key="1">option1</a-menu-item>
-            <a-menu-item key="2">option2</a-menu-item>
-            <a-menu-item key="3">option3</a-menu-item>
-            <a-menu-item key="4">option4</a-menu-item>
+            <a-menu-item key="1">
+              <router-link to="/news/category">
+                Danh mục bài viết
+              </router-link>
+            </a-menu-item>
+            <a-menu-item key="2">
+              <router-link to="/news/posts">Bài viết</router-link>
+            </a-menu-item>
+            <a-menu-item key="3">
+              <router-link to="/news/tag">Tag bài viết</router-link>
+            </a-menu-item>
           </a-sub-menu>
-          <a-sub-menu key="sub2">
-            <template #title>
-              <span>
-                <laptop-outlined />
-                subnav 2
-              </span>
-            </template>
-            <a-menu-item key="5">option5</a-menu-item>
-            <a-menu-item key="6">option6</a-menu-item>
-            <a-menu-item key="7">option7</a-menu-item>
-            <a-menu-item key="8">option8</a-menu-item>
-          </a-sub-menu>
+
           <a-sub-menu key="sub3">
             <template #title>
               <span>
                 <notification-outlined />
-                subnav 3
+                Khách hàng
               </span>
             </template>
-            <a-menu-item key="9">option9</a-menu-item>
-            <a-menu-item key="10">option10</a-menu-item>
-            <a-menu-item key="11">option11</a-menu-item>
-            <a-menu-item key="12">option12</a-menu-item>
+
+            <a-menu-item key="8">Sale admin</a-menu-item>
+            <a-menu-item key="9">Liên hệ</a-menu-item>
+            <a-menu-item key="10">Đánh giá</a-menu-item>
+            <a-menu-item key="11">Yêu cầu hỗ trợ</a-menu-item>
+
           </a-sub-menu>
+
         </a-menu>
-      </a-layout-sider> -->
-      <a-layout style="padding: 0 24px 24px">
+
+
+      </a-layout-sider>
+
+      <a-layout style="padding: 0 0 0 20px">
         <!-- <a-breadcrumb style="margin: 16px 0">
           <a-breadcrumb-item>Home</a-breadcrumb-item>
           <a-breadcrumb-item>List</a-breadcrumb-item>
@@ -66,6 +77,7 @@
 
 <script setup>
 import Header from "@/components/Header.vue";
+import HeadingLine from "@/components/HeadingLine.vue";
 
 import { ref } from "vue";
 const selectedKeys1 = ref(["1"]);
@@ -73,14 +85,14 @@ const selectedKeys2 = ref(["1"]);
 const openKeys = ref(["sub1"]);
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .custom-layout {
   background: var(--bg-color-primary);
   padding: 40px;
   margin: 0;
-  min-height: 280px;
-  margin-top: 40px;
+  min-height: 400px;
 }
+
 #components-layout-demo-top-side-2 .logo {
   float: left;
   width: 120px;

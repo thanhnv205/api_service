@@ -10,12 +10,12 @@ const router = createRouter({
       requiresAuth: true,
       children: [
         {
-          path: "/news",
+          path: "/news/posts",
           name: "news",
           component: () => import("@/views/news/NewsView/index.vue"),
         },
         {
-          path: "/news/create",
+          path: "/news/posts/create",
           name: "create news",
           component: () => import("@/views/news/NewsView/CreatePage.vue"),
         },
@@ -38,7 +38,11 @@ const router = createRouter({
       name: "Page Not Found",
       component: () => import("@/views/NotFound.vue"),
     },
-
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("@/views/AuthPage/Login.vue"),
+    },
     // {
     //   path: "/error",
     //   name: "Error",

@@ -1,18 +1,8 @@
 <template>
-  <div
-    class="TextInput"
-    :class="{ 'has-error': !!errorMessage, success: meta.valid }"
-  >
+  <div class="TextInput" :class="{ 'has-error': !!errorMessage, success: meta.valid }">
     <label :for="name">{{ label }}</label>
-    <a-input
-      :name="name"
-      :id="name"
-      :type="type"
-      :value="inputValue"
-      :placeholder="placeholder"
-      @input="handleChange"
-      @blur="handleBlur"
-    />
+    <a-input :name="name" :id="name" :type="type" :value="inputValue" :placeholder="placeholder" @input="handleChange"
+      @blur="handleBlur" />
 
     <p class="help-message" v-show="errorMessage || meta.valid">
       {{ errorMessage || successMessage }}
@@ -68,6 +58,7 @@ input {
   width: 100%;
   transition: border-color 0.3s ease-in-out, color 0.3s ease-in-out,
     background-color 0.3s ease-in-out;
+
   &:hover,
   &:focus {
     border-color: #374957;
