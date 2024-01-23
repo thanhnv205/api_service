@@ -1,11 +1,7 @@
 <template>
   <FormToolbar />
-  <Table
-    :columns="columns"
-    :data="newsStore.apiData"
-    :row-selection="rowSelection"
-    id_row="id_post"
-  />
+  <FormFilter />
+  <Table :columns="columns" :data="newsStore.apiData" :row-selection="rowSelection" id_row="id_post" />
 </template>
 
 <script setup>
@@ -15,6 +11,7 @@ import { useNewsStore } from "@/stores/newsStore";
 
 import FormToolbar from "./components/FormToolbar.vue";
 import Table from "@/components/Table/WrapperTable.vue";
+import FormFilter from './components/FormFilter.vue'
 
 const newsStore = useNewsStore();
 
