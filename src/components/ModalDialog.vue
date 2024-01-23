@@ -1,8 +1,13 @@
 <template>
-  <div>
-    <FormButton text="Filter" @click="showModal" />
 
-    <a-modal v-model:open="open" width="1000px" title="Bộ lọc" @ok="handleOk">
+    <a-modal class="custom-modal" 
+      v-model:open="visibleModal" 
+      width="1000px" 
+      title="Bộ lọc"
+      ok-text="Áp dụng"
+      cancel-text="Đặt lại"
+      @ok="handleSubmit"
+    >
       <form @submit.prevent="onSubmit" :validation-schema="validationSchema">
         <a-row :gutter="20">
           <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
@@ -23,32 +28,48 @@
           <a-col :span="12">
             <InputField name="active"  type="text" label="Trạng thái" placeholder="Trạng thái" />
           </a-col>
-
-          <a-col :span="24" class="gutter-row">
-            <FormButton html-type="submit" class="submit-btn" type="primary" text="Lưu" />
-          </a-col>
         </a-row>
       </form>
     </a-modal>
-  </div>
+
 </template>
 <script setup>
-import { ref } from 'vue';
-import FormButton from '@/components/customInput/FormButton.vue';
-
-import { useForm } from "vee-validate";
-
+import {  toRefs } from 'vue';
 import InputField from "@/components/customInput/InputField.vue";
+import { useVisibleModal } from "@/stores/visibleModal";
 
+const modal = useVisibleModal()
+const { visibleModal } = toRefs(modal)
 
-import axios from "axios";
-import { useRouter } from "vue-router";
-const open = ref(false);
-const showModal = () => {
-  open.value = true;
-};
-const handleOk = e => {
-  console.log(e);
-  open.value = false;
+const handleSubmit = e => {
+  modal.toggleVisibleModal()
+
 };
 </script>
+
+<style >
+
+.custom-modal {
+  .ant-modal-content {
+    padding: 40px;
+  }
+  .ant-modal-header {
+    margin-bottom: 30px;
+  }
+  .ant-modal-title {
+    font-size: 18px;
+  }
+  .ant-modal-close {
+    top: 40px;
+    right: 40px;
+  }
+  .ant-modal-footer {
+    margin-top: 20px;
+    .ant-btn {
+      padding: 0 25px;
+      min-height: 40px;
+      margin-inline-start: 20px !important;
+    }
+  }
+}
+</style>

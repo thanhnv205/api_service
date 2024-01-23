@@ -17,7 +17,7 @@ const newsStore = useNewsStore();
 
 const fetchData = async () => {
   try {
-    const { data } = await axios.get("http://localhost:5000/v1/category-news");
+    const { data } = await axios.get("http://localhost:4017/v1/category-posts");
     newsStore.setApiData(data);
   } catch (error) {
     console.error(error);

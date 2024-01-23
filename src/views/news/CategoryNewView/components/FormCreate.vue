@@ -99,7 +99,7 @@ watch(values, () => {
 
 const onSubmit = handleSubmit(async (data) => {
   try {
-    await axios.post("http://localhost:5000/v1/category-news", data);
+    await axios.post("http://localhost:4017/v1/category-posts", data);
     router.back();
   } catch (error) {
     console.error(error);

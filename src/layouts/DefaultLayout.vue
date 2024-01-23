@@ -22,7 +22,6 @@
           <a-sub-menu key="sub1">
             <template #title>
               <span>
-                <user-outlined />
                 Tin tức
               </span>
             </template>
@@ -42,7 +41,6 @@
           <a-sub-menu key="sub3">
             <template #title>
               <span>
-                <notification-outlined />
                 Khách hàng
               </span>
             </template>

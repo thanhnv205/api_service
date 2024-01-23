@@ -60,26 +60,12 @@ const props = defineProps(["selectedKeys"]);
 const selectedKeys = ref(props.selectedKeys);
 
 const showUserPopup = ref(false);
-const userPopupRef = ref(null);
 
 const handleTogglePopup = () => {
   showUserPopup.value = !showUserPopup.value
 }
 
-onMounted(() => {
-  window.addEventListener("click", handleWindowClick);
-});
 
-onUnmounted(() => {
-  window.removeEventListener("click", handleWindowClick);
-});
-
-const handleWindowClick = (event) => {
-  // Kiểm tra xem phần tử được click có nằm trong user-popup hay không
-  if (userPopupRef.value && !userPopupRef.value.contains(event.target)) {
-    closeUserPopup();
-  }
-};
 </script>
 
 <style lang="scss" scoped>

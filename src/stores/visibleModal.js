@@ -1,13 +1,12 @@
+import { ref } from "vue";
 import { defineStore } from "pinia";
 
-export const useVisibleModal = defineStore({
-  id: "modal",
-  state: () => ({
-    visibleModal: false,
-  }),
-  actions: {
-    toggleVisibleModal() {
-      this.visibleModal = !this.visibleModal;
-    },
-  },
+export const useVisibleModal = defineStore("modal", () => {
+  const visibleModal = ref(false)
+
+  const toggleVisibleModal = () => {
+    visibleModal.value = !visibleModal.value;
+  }
+  
+  return { visibleModal, toggleVisibleModal };
 });
