@@ -4,7 +4,7 @@
     class="custom-select"
     v-model:value="value"
     show-search
-    placeholder="Select a person"
+    :placeholder="label"
     :options="options"
     :filter-option="filterOption"
     @focus="handleFocus"

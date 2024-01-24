@@ -18,6 +18,7 @@
           type="text"
           label="Tên menu"
           placeholder="Tên menu"
+          @input="handleChangeSlug"
         />
       </a-col>
 
@@ -78,6 +79,7 @@
 </template>
 
 <script setup>
+import { watch } from "vue";
 import * as Yup from "yup";
 import { useForm } from "vee-validate";
 
@@ -88,6 +90,7 @@ import FormSelect from "@/components/customInput/FormSelect.vue";
 import TextAreaField from "@/components/customInput/TextAreaField.vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import { toSlug } from "@/utils/helper";
 
 const router = useRouter();
 
@@ -110,9 +113,20 @@ const { handleSubmit, values, setFieldValue } = useForm({
   validationSchema,
 });
 
+const handleChangeSlug = (event) => {
+  if (event) {
+    const newSlug = toSlug(event.target?.value);
+    setFieldValue("slug", newSlug);
+  }
+};
+
 const handleSwitchChange = (isChecked) => {
   setFieldValue("active", isChecked);
 };
+
+watch(values, () => {
+  handleChangeSlug();
+});
 
 const onSubmit = handleSubmit(async (data) => {
   console.log(data);
