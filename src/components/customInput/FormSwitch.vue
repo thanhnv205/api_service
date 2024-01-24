@@ -16,3 +16,22 @@ const handleChange = (isChecked) => {
   emit("update:checked", isChecked);
 };
 </script>
+
+<style lang="scss" scoped>
+.custom-switch {
+  border: 1px solid  var(--bg-linear-secondary);
+}
+
+.ant-switch-checked{
+  background-color: var(--bg-linear-primary);
+  border: 1px solid  var(--bg-linear-primary);
+  &:hover {
+    background-color: var(--bg-linear-primary) !important;
+  }
+}
+::v-deep(.ant-switch-handle) {
+  top: 1px;
+}
+
+
+</style>

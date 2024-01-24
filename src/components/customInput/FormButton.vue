@@ -15,9 +15,15 @@ const defaultSize = size || "large";
 
 <style lang="scss" scoped>
 .btn {
-  padding: 0 25px;
-  border-radius: 5px;
-  background-color: #ccc;
   min-width: 100px;
+  padding: 0 25px;
+  border: 0;
+  box-shadow: none;
+  border-radius: 5px;
+  background: linear-gradient(90deg,var(--bg-linear-primary),var(--bg-linear-primary) 108.33%);
+  &:focus-visible {
+    outline: none;
+  }
+
 }
 </style>

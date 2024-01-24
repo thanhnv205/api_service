@@ -26,7 +26,7 @@ import { useRouter } from "vue-router";
 const router = useRouter()
 
 const handleCreate = () => {
-  router.push({ name: "create news" });
+  router.push({ name: "create menu system" });
 };
 </script>
 

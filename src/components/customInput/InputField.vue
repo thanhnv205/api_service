@@ -50,6 +50,7 @@ label {
 }
 
 input {
+  height: 40px;
   font-size: 15px;
   border-radius: 5px;
   border: 1px solid #d9d9d9;

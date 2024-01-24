@@ -31,6 +31,31 @@ const router = createRouter({
           component: () =>
             import("@/views/news/CategoryNewView/CreatePage.vue"),
         },
+
+
+        {
+          path: "/system/menu-type",
+          name: "menu type",
+          component: () => import("@/views/system/MenuType/MenuTypeView.vue"),
+        },
+        {
+          path: "/system/menu-type/create",
+          name: "create menu type",
+          component: () => import("@/views/system/MenuType/CreatePage.vue"),
+        },
+
+        
+
+        {
+          path: "/system/menu-system",
+          name: "menu system",
+          component: () => import("@/views/system/MenuSystem/MenuSystemView.vue"),
+        },
+        {
+          path: "/system/menu-system/create",
+          name: "create menu system",
+          component: () => import("@/views/system/MenuSystem/CreatePage.vue"),
+        },
       ],
     },
     {

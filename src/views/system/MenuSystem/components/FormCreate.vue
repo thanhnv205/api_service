@@ -14,11 +14,10 @@
 
       <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
         <InputField
-          name="post_name"
+          name="menu_name"
           type="text"
-          label="Tên bài viết"
-          placeholder="Tên bài viết"
-          @input="handleChangeSlug"
+          label="Tên menu"
+          placeholder="Tên menu"
         />
       </a-col>
 
@@ -26,13 +25,35 @@
         <InputField
           name="slug"
           type="text"
-          label="Slug (url)"
-          placeholder="Slug (url)"
+          label="Slug (URL)"
+          placeholder="Slug (URL)"
         />
       </a-col>
 
-      <a-col :span="24">
-        <UploadFile />
+      <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
+        <FormSelect label="Danh mục cha" />
+      </a-col>
+
+      <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
+        <InputField
+          name="icon"
+          type="text"
+          label="Icon (Biểu tượng)"
+          placeholder="Icon (Biểu tượng)"
+        />
+      </a-col>
+
+      <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
+        <FormSelect label="Target" />
+      </a-col>
+
+      <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
+        <InputField
+          name="link_url"
+          type="text"
+          label="Link URL"
+          placeholder="Link URL"
+        />
       </a-col>
 
       <a-col :span="24">
@@ -57,33 +78,34 @@
 </template>
 
 <script setup>
-import { watch } from "vue";
 import * as Yup from "yup";
 import { useForm } from "vee-validate";
 
 import InputField from "@/components/customInput/InputField.vue";
-import TextAreaField from "@/components/customInput/TextAreaField.vue";
 import FormButton from "@/components/customInput/FormButton.vue";
 import FormSwitch from "@/components/customInput/FormSwitch.vue";
-import UploadFile from './UploadFile.vue'
-
-import { toSlug } from "@/utils/helper.js";
+import FormSelect from "@/components/customInput/FormSelect.vue";
+import TextAreaField from "@/components/customInput/TextAreaField.vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 
 const validationSchema = Yup.object().shape({
-  post_name: Yup.string().required("Tên danh mục không được để trống."),
-  slug: Yup.string().required("Slug không được để trống"),
+  menu_name: Yup.string().required("Tên danh mục không được để trống."),
+  slug: Yup.string().required("Slug (URL) không được để trống."),
 });
 
 const { handleSubmit, values, setFieldValue } = useForm({
   initialValues: {
     active: true,
+    menu_name: "",
     slug: "",
-    post_name: "",
     description: "",
+    id_parent: [],
+    icon: "",
+    target: "",
+    link_url: "",
   },
   validationSchema,
 });
@@ -92,24 +114,14 @@ const handleSwitchChange = (isChecked) => {
   setFieldValue("active", isChecked);
 };
 
-const handleChangeSlug = (event) => {
-  if (event) {
-    const newSlug = toSlug(event?.target?.value);
-    setFieldValue("slug", newSlug);
-  }
-};
-
-watch(values, () => {
-  handleChangeSlug();
-});
-
 const onSubmit = handleSubmit(async (data) => {
-  try {
-    await axios.post("http://localhost:4017/v1/category-posts", data);
-    router.back();
-  } catch (error) {
-    console.error(error);
-  }
+  console.log(data);
+  // try {
+  //   await axios.post("http://localhost:4017/v1/menu-type", data);
+  //   router.back();
+  // } catch (error) {
+  //   console.error(error);
+  // }
 });
 </script>
 
