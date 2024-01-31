@@ -44,6 +44,18 @@
         />
       </a-col>
 
+      <a-col :span="24">
+        <div class="container-editor">
+          <span class="heading-form">Nội dung</span>
+
+          <ckeditor
+            :editor="editor"
+            v-model="editorData"
+            :config="editorConfig"
+          />
+        </div>
+      </a-col>
+
       <a-col :span="24" class="gutter-row">
         <FormButton
           html-type="submit"
@@ -65,7 +77,8 @@ import InputField from "@/components/customInput/InputField.vue";
 import TextAreaField from "@/components/customInput/TextAreaField.vue";
 import FormButton from "@/components/customInput/FormButton.vue";
 import FormSwitch from "@/components/customInput/FormSwitch.vue";
-import UploadFile from './UploadFile.vue'
+import UploadFile from "./UploadFile.vue";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 import { toSlug } from "@/utils/helper.js";
 import axios from "axios";
@@ -111,6 +124,10 @@ const onSubmit = handleSubmit(async (data) => {
     console.error(error);
   }
 });
+
+const editorData = "<p>Content of the editor.</p>";
+const editorConfig = {};
+const editor = ClassicEditor;
 </script>
 
 <style lang="scss" scoped>
@@ -122,5 +139,8 @@ const onSubmit = handleSubmit(async (data) => {
 }
 .submit-btn {
   margin-top: 30px;
+}
+.container-editor {
+  margin-top: 20px;
 }
 </style>
