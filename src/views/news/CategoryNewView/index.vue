@@ -1,23 +1,38 @@
 <template>
   <FormToolbar />
   <FormFilter />
-  <Table :columns="columns" :data="newsStore.apiData" :row-selection="rowSelection" id_row="id_post" />
+  <LoadingPage>
+    <Table
+      :columns="columns"
+      :data="newsStore.apiData"
+      :row-selection="rowSelection"
+      id_row="id_post"
+    />
+  </LoadingPage>
 </template>
 
 <script setup>
-import { onMounted } from "vue";
 import axios from "axios";
-import { useNewsStore } from "@/stores/newsStore";
+import { watch, onMounted } from "vue";
+import { useRoute } from "vue-router";
 
 import FormToolbar from "./components/FormToolbar.vue";
 import Table from "@/components/Table/WrapperTable.vue";
-import FormFilter from './components/FormFilter.vue'
+import FormFilter from "./components/FormFilter.vue";
+import LoadingPage from "@/components/LoadingPage.vue";
+
+import { useNewsStore } from "@/stores/newsStore";
+
+const route = useRoute();
 
 const newsStore = useNewsStore();
 
-const fetchData = async () => {
+const fetchData = async (params) => {
   try {
-    const { data } = await axios.get("http://localhost:4017/v1/category-posts");
+    const { data } = await axios.get(
+      "http://localhost:4017/v1/category-posts",
+      { params }
+    );
     newsStore.setApiData(data);
   } catch (error) {
     console.error(error);
@@ -26,6 +41,11 @@ const fetchData = async () => {
 
 onMounted(() => {
   fetchData();
+});
+
+watch(route, () => {
+  const { query } = route;
+  fetchData(query);
 });
 
 const rowSelection = {

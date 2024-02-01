@@ -1,12 +1,20 @@
 <template>
   <a-row :gutter="20" class="toolbar">
     <a-col :span="8">
-      <FormButton text="Filter" @click="modal.toggleVisibleModal" />
+      <FormButton text="Bộ lọc" @click="modal.toggleVisibleModal">
+        <template #icon>
+          <FilterOutlined />
+        </template>
+      </FormButton>
     </a-col>
 
-
     <a-col :span="10" :offset="6" class="toolbar-left">
-      <FormButton @click="handleCreate" text="Thêm mới" type="primary" size="large">
+      <FormButton
+        @click="handleCreate"
+        text="Thêm mới"
+        type="primary"
+        size="large"
+      >
         <template #icon>
           <PlusCircleOutlined />
         </template>
@@ -19,19 +27,21 @@
       </FormButton>
     </a-col>
   </a-row>
-
 </template>
 
 <script setup>
-
 import FormButton from "@/components/customInput/FormButton.vue";
-import { PlusCircleOutlined, EditOutlined } from "@ant-design/icons-vue";
+import {
+  PlusCircleOutlined,
+  EditOutlined,
+  FilterOutlined,
+} from "@ant-design/icons-vue";
 
 import { useRouter } from "vue-router";
 import { useVisibleModal } from "@/stores/visibleModal";
-const modal = useVisibleModal()
+const modal = useVisibleModal();
 
-const router = useRouter()
+const router = useRouter();
 
 const handleCreate = () => {
   router.push({ name: "create category news" });
