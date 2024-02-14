@@ -44,8 +44,6 @@ const router = createRouter({
           component: () => import("@/views/system/MenuType/CreatePage.vue"),
         },
 
-        
-
         {
           path: "/system/menu-system",
           name: "menu system",
@@ -64,7 +62,7 @@ const router = createRouter({
       component: () => import("@/views/NotFound.vue"),
     },
     {
-      path: "/login",
+      path: "/auth/login",
       name: "login",
       component: () => import("@/views/AuthPage/Login.vue"),
     },

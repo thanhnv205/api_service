@@ -1,53 +1,25 @@
 <template>
   <section class="container">
     <div class="wrapper-login">
-      <a-form
-        :model="formState"
-        name="normal_login"
-        class="login-form"
-        @finish="onFinish"
-        @finishFailed="onFinishFailed"
-      >
-        <a-form-item
-          name="email"
-          :rules="[{ required: true, message: 'Please input your email!' }]"
-        >
-          <a-input
-            class="form-input"
-            v-model:value="formState.email"
-            placeholder="Tên đăng nhập"
-          />
+      <a-form :model="formState" name="normal_login" class="login-form" @finish="onFinish" @finishFailed="onFinishFailed">
+        <a-form-item name="email" :rules="[{ required: true, message: 'Please input your email!' }]">
+          <a-input class="form-input" v-model:value="formState.email" placeholder="Tên đăng nhập" />
         </a-form-item>
 
-        <a-form-item
-          class="custom-password"
-          name="password"
-          :rules="[{ required: true, message: 'Please input your password!' }]"
-        >
-          <a-input-password
-            class="form-input"
-            v-model:value="formState.password"
-            placeholder="Mật khẩu"
-          />
+        <a-form-item class="custom-password" name="password"
+          :rules="[{ required: true, message: 'Please input your password!' }]">
+          <a-input-password class="form-input" v-model:value="formState.password" placeholder="Mật khẩu" />
         </a-form-item>
 
         <a-form-item>
           <a-form-item name="remember" no-style>
-            <FormCheckbox
-              v-model:checked="formState.remember"
-              label="Remember me"
-            />
+            <FormCheckbox v-model:checked="formState.remember" label="Remember me" />
           </a-form-item>
           <a class="wrapper-login-forgot" href="">Forgot password</a>
         </a-form-item>
 
         <a-form-item>
-          <a-button
-            :disabled="disabled"
-            type="primary"
-            html-type="submit"
-            class="wrapper-login-button"
-          >
+          <a-button :disabled="disabled" type="primary" html-type="submit" class="wrapper-login-button">
             Log in
           </a-button>
         </a-form-item>
@@ -57,9 +29,13 @@
 </template>
 
 <script setup>
-import { reactive, computed, defineProps } from "vue";
+import { reactive, computed } from "vue";
 import axios from "axios";
 import FormCheckbox from "@/components/customInput/FormCheckbox.vue";
+import { useAuthStore } from '@/stores/auth'
+import apiService from '@/api/apiService'
+
+const authStore = useAuthStore()
 
 const formState = reactive({
   email: "",
@@ -68,8 +44,14 @@ const formState = reactive({
 });
 
 const onFinish = async (data) => {
+  const newData = {
+    email: data.email,
+    password: data.password
+  }
   try {
-    await axios.post("http://localhost:4017/auth/login", data);
+    const { data } = await apiService.post("auth/login", newData);
+    const { token } = data
+    authStore.setToken(token)
   } catch (error) {
     console.error(error);
   }
