@@ -30,13 +30,16 @@
 
 <script setup>
 import { reactive, computed } from "vue";
-import axios from "axios";
-import FormCheckbox from "@/components/customInput/FormCheckbox.vue";
-import { useAuthStore } from '@/stores/auth'
+import { useRouter } from "vue-router";
+
 import apiService from '@/api/apiService'
 
-const authStore = useAuthStore()
+import FormCheckbox from "@/components/customInput/FormCheckbox.vue";
+import { useAuthStore } from '@/stores/auth'
 
+
+const authStore = useAuthStore()
+const router = useRouter();
 const formState = reactive({
   email: "",
   password: "",
@@ -50,8 +53,9 @@ const onFinish = async (data) => {
   }
   try {
     const { data } = await apiService.post("auth/login", newData);
-    const { token } = data
-    authStore.setToken(token)
+    authStore.setAuth(data)
+
+    router.push({ name: "homepage" });
   } catch (error) {
     console.error(error);
   }

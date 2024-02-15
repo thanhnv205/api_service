@@ -10,6 +10,11 @@ const router = createRouter({
       requiresAuth: true,
       children: [
         {
+          path: "",
+          name: "homepage",
+          component: () => import("@/views/HomeView.vue"),
+        },
+        {
           path: "/news/posts",
           name: "news",
           component: () => import("@/views/news/NewsView/index.vue"),
@@ -31,8 +36,6 @@ const router = createRouter({
           component: () =>
             import("@/views/news/CategoryNewView/CreatePage.vue"),
         },
-
-
         {
           path: "/system/menu-type",
           name: "menu type",
@@ -43,7 +46,6 @@ const router = createRouter({
           name: "create menu type",
           component: () => import("@/views/system/MenuType/CreatePage.vue"),
         },
-
         {
           path: "/system/menu-system",
           name: "menu system",

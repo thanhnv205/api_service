@@ -18,7 +18,6 @@ APIs.interceptors.request.use(
       "Accept": "application/json"
     });
 
-    console.log('config', config);
     return config;
   },
   (error) => {
