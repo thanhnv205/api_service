@@ -10,17 +10,17 @@
 
 <script setup>
 import { onMounted } from "vue";
-import axios from "axios";
 import { useNewsStore } from "@/stores/newsStore";
 
 import FormToolbar from "./components/FormToolbar.vue";
 import Table from "@/components/Table/WrapperTable.vue";
+import APIs from "@/api/apiService";
 
 const newsStore = useNewsStore();
 
 const fetchData = async () => {
   try {
-    const { data } = await axios.get("http://localhost:5000/v1/news");
+    const { data } = await APIs.get("v1/posts");
     newsStore.setApiData(data);
   } catch (error) {
     console.error(error);

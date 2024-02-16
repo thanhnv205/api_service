@@ -1,9 +1,10 @@
 <template>
   <form @submit.prevent="onSubmit" :validation-schema="validationSchema">
-    <a-row :gutter="20">
+    <a-row :gutter="30">
       <a-col :span="24">
         <div class="status">
-          <span class="heading-small">Trạng thái</span>
+          <TitlePage size="normal" title="Trạng thái" />
+
           <FormSwitch
             name="active"
             :checked="values.active"
@@ -31,11 +32,26 @@
         />
       </a-col>
 
-      <a-col :span="24">
+      <a-col :xs="{ span: 24 }" :lg="{ offset: 6, span: 6, pull: 6 }">
+        <TitlePage 
+          size="small" 
+          title="Ảnh đại diện"
+          pb="10px"
+         />
         <UploadFile />
       </a-col>
 
-      <a-col :span="24">
+      
+      <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
+        <InputField
+          name="slug"
+          type="text"
+          label="Ngày xuất bản"
+          placeholder="Ngày xuất bản"
+        />
+      </a-col>
+
+      <a-col :span="24" style="margin-top: 10px">
         <TextAreaField
           name="description"
           :rows="4"
@@ -46,7 +62,11 @@
 
       <a-col :span="24">
         <div class="container-editor">
-          <span class="heading-form">Nội dung</span>
+          <TitlePage 
+            size="normal" 
+            title="Nội dung"
+            pb="15px"
+            />
 
           <ckeditor
             :editor="editor"
@@ -72,13 +92,14 @@
 import { watch } from "vue";
 import * as Yup from "yup";
 import { useForm } from "vee-validate";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 import InputField from "@/components/customInput/InputField.vue";
 import TextAreaField from "@/components/customInput/TextAreaField.vue";
 import FormButton from "@/components/customInput/FormButton.vue";
 import FormSwitch from "@/components/customInput/FormSwitch.vue";
-import UploadFile from "./UploadFile.vue";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import UploadFile from "@/components/uploadFile/UploadImage.vue";
+import TitlePage from "@/components/TitlePage.vue"
 
 import { toSlug } from "@/utils/helper.js";
 import axios from "axios";

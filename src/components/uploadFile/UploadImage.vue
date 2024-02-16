@@ -5,7 +5,7 @@
     list-type="picture-card"
     class="avatar-uploader"
     :show-upload-list="false"
-    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+    action='http://localhost:4017/v1/posts/upload-image'
     :before-upload="beforeUpload"
     @change="handleChange"
   >
@@ -18,6 +18,7 @@
     </div>
   </a-upload>
 </template>
+
 <script setup>
 import { ref } from 'vue';
 import { message } from 'ant-design-vue';
@@ -31,8 +32,9 @@ function getBase64(img, callback) {
 const fileList = ref([]);
 const loading = ref(false);
 const imageUrl = ref('');
-
+console.log(fileList);
 const handleChange = info => {
+  console.log(info.file);
   if (info.file.status === 'uploading') {
     loading.value = true;
     return;
@@ -61,10 +63,16 @@ const beforeUpload = file => {
   return isJpgOrPng && isLt2M;
 };
 </script>
+
 <style scoped>
-.avatar-uploader > .ant-upload {
-  width: 128px;
-  height: 128px;
+::v-deep(.ant-upload.ant-upload-select) {
+  width: 100% !important;
+  height: 150px !important;
+  margin: 0 !important;
+}
+
+::v-deep(.ant-upload.ant-upload-select:not(.ant-upload-disabled):hover) {
+    border-color: var(--bg-linear-primary) !important;
 }
 .ant-upload-select-picture-card i {
   font-size: 32px;

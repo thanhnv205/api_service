@@ -1,13 +1,13 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
 export const useNewsStore = defineStore({
-  id: "news",
+  id: 'news',
   state: () => ({
-    apiData: [],
+    apiData: []
   }),
   actions: {
     setApiData(data) {
-      this.apiData = data;
-    },
-  },
-});
+      this.apiData = data
+    }
+  }
+})

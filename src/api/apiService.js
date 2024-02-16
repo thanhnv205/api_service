@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from "@/stores/auth";
 
 const APIs = axios.create({
   baseURL: process.env.VUE_APP_URI,
@@ -7,15 +7,15 @@ const APIs = axios.create({
 
 APIs.interceptors.request.use(
   (config) => {
-    const authStore = useAuthStore();
-    const { token } = authStore;
+    const { token } = useAuthStore();
+
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
 
     Object.assign(config.headers, {
       "Content-Type": "application/json",
-      "Accept": "application/json"
+      Accept: "application/json",
     });
 
     return config;
@@ -25,4 +25,4 @@ APIs.interceptors.request.use(
   }
 );
 
-export default APIs
+export default APIs;

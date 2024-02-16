@@ -5,7 +5,7 @@
 </template>
   
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref, defineEmits } from 'vue';
 
 const { modelValue, label } = defineProps(['modelValue', 'label']);
 const emit = defineEmits();

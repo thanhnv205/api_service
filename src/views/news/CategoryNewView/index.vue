@@ -22,6 +22,7 @@ import FormFilter from "./components/FormFilter.vue";
 import LoadingPage from "@/components/LoadingPage.vue";
 
 import { useNewsStore } from "@/stores/newsStore";
+import APIs from "@/api/apiService";
 
 const route = useRoute();
 
@@ -29,10 +30,7 @@ const newsStore = useNewsStore();
 
 const fetchData = async (params) => {
   try {
-    const { data } = await axios.get(
-      "http://localhost:4017/v1/category-posts",
-      { params }
-    );
+    const { data } = await APIs.get("v1/category-posts", { params });
     newsStore.setApiData(data);
   } catch (error) {
     console.error(error);

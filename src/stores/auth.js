@@ -1,8 +1,8 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useAuthStore = defineStore("auth", () => {
-  const token = ref(null);
+export const useAuthStore = defineStore('auth', () => {
+  const token = ref(null)
   const user = ref(null)
 
   const setAuth = (newToken) => {
@@ -11,5 +11,5 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
 
-  return { user, token, setAuth };
-});
+  return { user, token, setAuth }
+})
