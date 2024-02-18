@@ -1,14 +1,7 @@
 <template>
-  <a-upload
-    v-model:file-list="fileList"
-    name="avatar"
-    list-type="picture-card"
-    class="avatar-uploader"
-    :show-upload-list="false"
-    action='http://localhost:4017/v1/posts/upload-image'
-    :before-upload="beforeUpload"
-    @change="handleChange"
-  >
+  <a-upload v-model:file-list="fileList" name="avatar" list-type="picture-card" class="avatar-uploader"
+    :show-upload-list="false" action='http://localhost:4017/v1/posts/upload-image' :before-upload="beforeUpload"
+    @change="handleChange">
     <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
     <div v-else>
       <loading-outlined v-if="loading"></loading-outlined>
@@ -32,7 +25,7 @@ function getBase64(img, callback) {
 const fileList = ref([]);
 const loading = ref(false);
 const imageUrl = ref('');
-console.log(fileList);
+
 const handleChange = info => {
   console.log(info.file);
   if (info.file.status === 'uploading') {
@@ -56,11 +49,11 @@ const beforeUpload = file => {
   if (!isJpgOrPng) {
     message.error('You can only upload JPG file!');
   }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
+  const isLt10M = file.size / 1024 / 1024 < 10;
+  if (!isLt10M) {
+    message.error('Image must smaller than 10MB!');
   }
-  return isJpgOrPng && isLt2M;
+  return isJpgOrPng && isLt10M;
 };
 </script>
 
@@ -72,8 +65,9 @@ const beforeUpload = file => {
 }
 
 ::v-deep(.ant-upload.ant-upload-select:not(.ant-upload-disabled):hover) {
-    border-color: var(--bg-linear-primary) !important;
+  border-color: var(--bg-linear-primary) !important;
 }
+
 .ant-upload-select-picture-card i {
   font-size: 32px;
   color: #999;
