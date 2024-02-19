@@ -1,64 +1,60 @@
 <template>
-  <a-upload v-model:file-list="fileList" name="avatar" list-type="picture-card" class="avatar-uploader"
-    :show-upload-list="false" action='http://localhost:4017/v1/posts/upload-image' :before-upload="beforeUpload"
-    @change="handleChange">
-    <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
-    <div v-else>
-      <loading-outlined v-if="loading"></loading-outlined>
 
-      <AreaChartOutlined v-else />
-      <div class="ant-upload-text">Upload</div>
-    </div>
+  <a-upload
+    v-model:file-list="fileList"
+    name="image"
+    list-type="picture-card"
+    class="image-uploader"
+    :show-upload-list="fileList.length > 0 && fileList[0].status === 'done'"
+    action='http://localhost:4017/v1/posts/upload-image'
+  >
+
+  <div v-if="fileList.length === 0">
+    <AreaChartOutlined />
+    <div style="margin-top: 8px">Upload</div>
+  </div>
+
   </a-upload>
+
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { message } from 'ant-design-vue';
 import { AreaChartOutlined } from "@ant-design/icons-vue";
 
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
+const previewImage = ref('');
 const fileList = ref([]);
-const loading = ref(false);
-const imageUrl = ref('');
+const previewVisible = ref(false)
 
-const handleChange = info => {
-  console.log(info.file);
-  if (info.file.status === 'uploading') {
-    loading.value = true;
-    return;
-  }
-  if (info.file.status === 'done') {
-    // Get this url from response in real world.
-    getBase64(info.file.originFileObj, base64Url => {
-      imageUrl.value = base64Url;
-      loading.value = false;
-    });
-  }
-  if (info.file.status === 'error') {
-    loading.value = false;
-    message.error('upload error');
-  }
+const handleCancel = () => {
+  previewVisible.value = false;
 };
-const beforeUpload = file => {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG file!');
+
+
+const handleUpload = (file) => {
+  console.log(file);
+}
+
+const handlePreview = async (file) => {
+  if (!file.url && !file.preview) {
+    file.preview = await getBase64(file.originFileObj);
   }
-  const isLt10M = file.size / 1024 / 1024 < 10;
-  if (!isLt10M) {
-    message.error('Image must smaller than 10MB!');
-  }
-  return isJpgOrPng && isLt10M;
+  previewImage.value = file.url || file.preview;
+  previewVisible.value = true;
 };
+
+
 </script>
 
-<style scoped>
-::v-deep(.ant-upload.ant-upload-select) {
+<style scoped lang="scss">
+.image-uploader {
+  overflow: hidden;
+  ::v-deep(.ant-upload-list-item-thumbnail img) {
+    object-fit: cover !important;
+  }
+}
+::v-deep(.ant-upload.ant-upload-select),
+::v-deep(.ant-upload-list-item-container) {
   width: 100% !important;
   height: 150px !important;
   margin: 0 !important;

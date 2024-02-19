@@ -80,8 +80,8 @@ import HeadingLine from "@/components/HeadingLine.vue";
 
 import { ref } from "vue";
 const selectedKeys1 = ref(["1"]);
- const selectedKeys2 = ref(["1"]);
-// const openKeys = ref(["sub1"]);
+ const selectedKeys2 = ref(["6"]);
+ const openKeys = ref(["sub1"]);
 </script>
 
 <style scoped lang="scss">
