@@ -13,6 +13,7 @@
     "@ckeditor/ckeditor5-vue": "^5.1.0",
     "ant-design-vue": "^4.1.0",
     "axios": "^1.6.5",
+    "moment": "^2.30.1",
     "pinia": "^2.1.7",
     "vee-validate": "^4.12.4",
     "vue": "^3.3.11",

@@ -1,48 +1,60 @@
 <template>
-
   <a-upload
     v-model:file-list="fileList"
     name="image"
     list-type="picture-card"
     class="image-uploader"
     :show-upload-list="fileList.length > 0 && fileList[0].status === 'done'"
-    action='http://localhost:4017/v1/posts/upload-image'
+    :before-upload ="handleBeforeUpload"
+    :action="`http://localhost:4017/${apiEndpoint}`"
+    @remove="handleRemove"
+    @preview="handlePreview"
   >
 
-  <div v-if="fileList.length === 0">
-    <AreaChartOutlined />
-    <div style="margin-top: 8px">Upload</div>
-  </div>
+    <div v-if="fileList.length === 0">
+      <AreaChartOutlined />
+      <div style="margin-top: 8px">Upload</div>
+    </div>
 
   </a-upload>
 
+  <a-modal :open="previewVisible" :footer="null" @cancel="handleCancel">
+    <img alt="example" style="width: 100%" :src="previewImage" />
+  </a-modal>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { AreaChartOutlined } from "@ant-design/icons-vue";
+import axios from 'axios';
+
+const { apiEndpoint } = defineProps(['apiEndpoint'])
+const emits = defineEmits(['changeFile'])
 
 const previewImage = ref('');
 const fileList = ref([]);
 const previewVisible = ref(false)
 
+const handleBeforeUpload = async () => {
+const {value} = fileList
+console.log(value);
+}
+
 const handleCancel = () => {
   previewVisible.value = false;
 };
 
-
-const handleUpload = (file) => {
-  console.log(file);
-}
-
-const handlePreview = async (file) => {
-  if (!file.url && !file.preview) {
-    file.preview = await getBase64(file.originFileObj);
-  }
-  previewImage.value = file.url || file.preview;
-  previewVisible.value = true;
+const handleRemove = async ({response}) => {
+  const { filename } = response
+  await axios.post('http://localhost:4017/v1/posts/delete-image',{file: filename})
 };
 
+
+const handlePreview = async ({response}) => {
+  const { url } = response
+  previewImage.value = url
+  previewVisible.value = true;
+};
 
 </script>
 
@@ -73,4 +85,5 @@ const handlePreview = async (file) => {
   margin-top: 8px;
   color: #666;
 }
+
 </style>

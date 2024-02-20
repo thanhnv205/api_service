@@ -24,3 +24,7 @@
 .img {
   width: 100%;
 }
+
+.ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
+  border-color: #374957 !important;
+}

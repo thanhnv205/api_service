@@ -38,15 +38,16 @@
           title="Ảnh đại diện"
           pb="10px"
          />
-        <UploadFile />
+        <UploadFile
+          apiEndpoint="v1/posts/upload-image"
+          @changeFile="handleUpload"
+        />
       </a-col>
 
-      
       <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
-        <InputField
-          name="slug"
-          type="text"
-          label="Ngày xuất bản"
+        <FormDatePicker 
+          name="public_date" 
+          label="Ngày xuất bản" 
           placeholder="Ngày xuất bản"
         />
       </a-col>
@@ -72,6 +73,7 @@
             :editor="editor"
             v-model="editorData"
             :config="editorConfig"
+            @input="handleEditorChange"
           />
         </div>
       </a-col>
@@ -89,27 +91,32 @@
 </template>
 
 <script setup>
-import { watch } from "vue";
+import { watch ,ref} from "vue";
 import * as Yup from "yup";
 import { useForm } from "vee-validate";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
+import TitlePage from "@/components/TitlePage.vue"
 import InputField from "@/components/customInput/InputField.vue";
+import FormDatePicker from "@/components/customInput/FormDatePicker.vue";
 import TextAreaField from "@/components/customInput/TextAreaField.vue";
 import FormButton from "@/components/customInput/FormButton.vue";
 import FormSwitch from "@/components/customInput/FormSwitch.vue";
 import UploadFile from "@/components/uploadFile/UploadImage.vue";
-import TitlePage from "@/components/TitlePage.vue"
 
 import { toSlug } from "@/utils/helper.js";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import { dateView } from "@/utils/formatDate";
+
 
 const router = useRouter();
 
 const validationSchema = Yup.object().shape({
   post_name: Yup.string().required("Tên danh mục không được để trống."),
   slug: Yup.string().required("Slug không được để trống"),
+  description: Yup.string().required("Mô tả không được để trống"),
+  public_date: Yup.string().required("Ngày xuất bản không được để trống")
 });
 
 const { handleSubmit, values, setFieldValue } = useForm({
@@ -117,7 +124,10 @@ const { handleSubmit, values, setFieldValue } = useForm({
     active: true,
     slug: "",
     post_name: "",
+    public_date: "",
     description: "",
+    image_name: null,
+    content: null
   },
   validationSchema,
 });
@@ -133,22 +143,37 @@ const handleChangeSlug = (event) => {
   }
 };
 
+const handleUpload = (src) => {
+  setFieldValue("image_name", src);
+}
+
 watch(values, () => {
   handleChangeSlug();
 });
 
 const onSubmit = handleSubmit(async (data) => {
+  const newData = {
+    ...data,
+    public_date: dateView(data.public_date)
+  }
+  console.log(newData);
   try {
-    await axios.post("http://localhost:4017/v1/category-posts", data);
+    await axios.post("http://localhost:4017/v1/posts", newData);
     router.back();
   } catch (error) {
     console.error(error);
   }
 });
 
-const editorData = "<p>Content of the editor.</p>";
-const editorConfig = {};
+const editorData = ref('')
 const editor = ClassicEditor;
+const editorConfig = {
+           
+}
+
+// const handleEditorChange = (event) => {
+//   console.log( event);
+// };
 </script>
 
 <style lang="scss" scoped>
