@@ -5,6 +5,7 @@
     :data="newsStore.apiData"
     :row-selection="rowSelection"
     id_row="id_post"
+    @change="handleActive"
   />
 </template>
 
@@ -18,6 +19,7 @@ import APIs from "@/api/apiService";
 
 const newsStore = useNewsStore();
 
+
 const fetchData = async () => {
   try {
     const { data } = await APIs.get("v1/posts");
@@ -26,6 +28,11 @@ const fetchData = async () => {
     console.error(error);
   }
 };
+
+const handleActive = async (data) => {
+  await  APIs.post("v1/posts/active", data)
+  newsStore.setActive(data.ids, data.active)
+}
 
 onMounted(() => {
   fetchData();
@@ -45,13 +52,14 @@ const columns = [
   {
     title: "Tiêu đề",
     width: "12%",
-    dataIndex: "title",
+    dataIndex: "post_name",
   },
   {
     title: "Hình ảnh",
     width: "15%",
     align: "center",
-    dataIndex: "image",
+    dataIndex: "image_name",
+    url: 'http://localhost:4017/images/posts'
   },
   {
     title: "Nội dung",

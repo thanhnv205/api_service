@@ -5,8 +5,7 @@
     list-type="picture-card"
     class="image-uploader"
     :show-upload-list="fileList.length > 0 && fileList[0].status === 'done'"
-    :before-upload ="handleBeforeUpload"
-    :action="`http://localhost:4017/${apiEndpoint}`"
+    :custom-request="handleUpload"
     @remove="handleRemove"
     @preview="handlePreview"
   >
@@ -35,18 +34,36 @@ const previewImage = ref('');
 const fileList = ref([]);
 const previewVisible = ref(false)
 
-const handleBeforeUpload = async () => {
-const {value} = fileList
-console.log(value);
-}
 
 const handleCancel = () => {
   previewVisible.value = false;
 };
 
+
+const uploadImage = async (file) => {
+  const formData = new FormData();
+  formData.append('image', file);
+  try {
+    const { data } = await axios.post(`http://localhost:4017/${apiEndpoint}`, formData);
+    return data
+  } catch (error) { throw error  }
+};
+
+const handleUpload = async ({ file, onSuccess }) => {
+  try {
+    const res = await uploadImage(file);
+    onSuccess(res)
+    emits('changeFile', res.filename)
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
 const handleRemove = async ({response}) => {
   const { filename } = response
   await axios.post('http://localhost:4017/v1/posts/delete-image',{file: filename})
+  emits('changeFile', null)
 };
 
 

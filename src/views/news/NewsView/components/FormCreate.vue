@@ -70,6 +70,7 @@
             />
 
           <ckeditor
+            name="content"
             :editor="editor"
             v-model="editorData"
             :config="editorConfig"
@@ -143,8 +144,8 @@ const handleChangeSlug = (event) => {
   }
 };
 
-const handleUpload = (src) => {
-  setFieldValue("image_name", src);
+const handleUpload = (fileName) => {
+  setFieldValue("image_name", fileName);
 }
 
 watch(values, () => {
@@ -156,7 +157,7 @@ const onSubmit = handleSubmit(async (data) => {
     ...data,
     public_date: dateView(data.public_date)
   }
-  console.log(newData);
+
   try {
     await axios.post("http://localhost:4017/v1/posts", newData);
     router.back();
@@ -171,9 +172,9 @@ const editorConfig = {
            
 }
 
-// const handleEditorChange = (event) => {
-//   console.log( event);
-// };
+const handleEditorChange = (event) => {
+  setFieldValue('content', event)
+};
 </script>
 
 <style lang="scss" scoped>

@@ -5,12 +5,12 @@
     :pagination="{ showSizeChanger: false }"
   >
     <template v-slot:bodyCell="{ text, record, index, column }">
-      <template v-if="column.dataIndex === 'image'">
-        <img :src="text" :alt="record.title" class="image-coll" />
+      <template v-if="column.dataIndex === 'image_name'">
+        <img :src="`${column.url}/${text}`" :alt="record.post_name" class="image-coll" />
       </template>
 
       <template v-if="column.dataIndex === 'active'">
-        <FormSwitch size="small" />
+        <FormSwitch size="small" :checked="record.active" @change="handleChange([record.key], !record.active)" />
       </template>
     </template>
   </a-table>
@@ -21,6 +21,11 @@ import { computed, defineProps } from "vue";
 import FormSwitch from "@/components/customInput/FormSwitch.vue";
 
 const props = defineProps(["columns", "data", "id_row"]);
+const emits = defineEmits(['change'])
+
+const handleChange = (ids, active) => {
+  emits('change', { ids, active })
+}
 
 const tableData = computed(() => {
   return props.data.map((row, index) => {
@@ -30,7 +35,7 @@ const tableData = computed(() => {
     });
 
     return {
-      key: row[props.id_row] || index,
+      key: row._id || index,
       ...rowData,
     };
   });
