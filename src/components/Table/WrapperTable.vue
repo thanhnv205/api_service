@@ -12,6 +12,16 @@
       <template v-if="column.dataIndex === 'active'">
         <FormSwitch size="small" :checked="record.active" @change="handleChange([record.key], !record.active)" />
       </template>
+
+      <template v-if="column.dataIndex === 'edit'">
+        <button 
+          @click="emits('handleEdit', record.key)" 
+          class="btn-action btn"
+        >
+          <EditOutlined />
+          <div class="btn-text">Chỉnh sửa</div>
+        </button>
+      </template>
     </template>
   </a-table>
 </template>
@@ -19,9 +29,10 @@
 <script setup>
 import { computed, defineProps } from "vue";
 import FormSwitch from "@/components/customInput/FormSwitch.vue";
+import { EditOutlined } from "@ant-design/icons-vue";
 
 const props = defineProps(["columns", "data", "id_row"]);
-const emits = defineEmits(['change'])
+const emits = defineEmits(['change', 'handleEdit'])
 
 const handleChange = (ids, active) => {
   emits('change', { ids, active })
@@ -40,10 +51,22 @@ const tableData = computed(() => {
     };
   });
 });
+
 </script>
 
 <style scoped lang="scss">
 .image-coll {
   max-width: 100px;
+}
+.btn-action {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  border-color: var( --color-line);
+  padding: 5px 15px;
+  font-size: 15px;
+  .btn-text {
+    margin-left: 8px;
+  }
 }
 </style>

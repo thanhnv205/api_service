@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 
 export const useNewsStore = defineStore('news', () => {
   const apiData = ref([])
+  const updateData = ref({})
 
   const setApiData = (data) => {
     apiData.value = data
@@ -18,5 +19,15 @@ export const useNewsStore = defineStore('news', () => {
     apiData.value = newData
   }
 
-  return { apiData, setApiData, setActive }
+  const setUpdateData = (data) => {
+    updateData.value = data
+  }
+
+  return {
+    apiData,
+    setApiData,
+    setActive,
+    updateData,
+    setUpdateData
+  }
 })

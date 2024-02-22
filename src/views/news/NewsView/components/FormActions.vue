@@ -92,8 +92,9 @@
 </template>
 
 <script setup>
-import { watch ,ref} from "vue";
+import { watch, watchEffect, ref } from "vue";
 import * as Yup from "yup";
+import dayjs from "dayjs"
 import { useForm } from "vee-validate";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
@@ -106,12 +107,14 @@ import FormSwitch from "@/components/customInput/FormSwitch.vue";
 import UploadFile from "@/components/uploadFile/UploadImage.vue";
 
 import { toSlug } from "@/utils/helper.js";
-import axios from "axios";
 import { useRouter } from "vue-router";
 import { dateView } from "@/utils/formatDate";
+import { useNewsStore } from "@/stores/newsStore";
 
 
 const router = useRouter();
+const newsStore = useNewsStore();
+const emits = defineEmits(['handle'])
 
 const validationSchema = Yup.object().shape({
   post_name: Yup.string().required("Tên danh mục không được để trống."),
@@ -125,12 +128,25 @@ const { handleSubmit, values, setFieldValue } = useForm({
     active: true,
     slug: "",
     post_name: "",
-    public_date: "",
+    public_date: null,
     description: "",
     image_name: null,
     content: null
   },
   validationSchema,
+});
+
+watchEffect(() => {
+  const { updateDate } = newsStore;
+  if (Object.keys(updateDate).length > 0) {
+    Object.entries(updateDate).forEach(([key, value]) => {
+      setFieldValue(key, key === 'public_date' ? dayjs(value, 'DD/MM/YYYY') : value);
+    });
+  }
+});
+
+watch(values, () => {
+  handleChangeSlug();
 });
 
 const handleSwitchChange = (isChecked) => {
@@ -148,22 +164,13 @@ const handleUpload = (fileName) => {
   setFieldValue("image_name", fileName);
 }
 
-watch(values, () => {
-  handleChangeSlug();
-});
-
-const onSubmit = handleSubmit(async (data) => {
+const onSubmit = handleSubmit((data) => {
   const newData = {
     ...data,
     public_date: dateView(data.public_date)
   }
-
-  try {
-    await axios.post("http://localhost:4017/v1/posts", newData);
-    router.back();
-  } catch (error) {
-    console.error(error);
-  }
+  emits('handle', newData)
+  router.back();
 });
 
 const editorData = ref('')

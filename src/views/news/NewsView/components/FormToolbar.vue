@@ -9,11 +9,11 @@
         </template>
       </FormButton>
 
-      <FormButton text="Chỉnh sửa" type="primary" size="large">
+      <!-- <FormButton text="Chỉnh sửa" type="primary" size="large">
         <template #icon>
           <EditOutlined />
         </template>
-      </FormButton>
+      </FormButton> -->
     </a-col>
   </a-row>
 </template>

@@ -27,6 +27,12 @@ const router = createRouter({
         },
 
         {
+          path: '/news/update/:_id',
+          name: 'update news',
+          component: () => import('@/views/news/NewsView/UpdatePage.vue')
+        },
+
+        {
           path: '/news/category',
           name: 'category news',
           component: () => import('@/views/news/CategoryNewView/index.vue')

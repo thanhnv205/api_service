@@ -1,11 +1,45 @@
-/* @import "./base.css"; */
+@import "./base.css";
+
+:where(.primary-button) {
+  background-color: red;
+  color: white;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+}
+
+.heading-small {
+  font-weight: 600;
+  margin-right: 20px;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.icon {
+  color: #fff;
+}
+
+.img {
+  width: 100%;
+}
+
+.ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
+  border-color: #374957 !important;
+}
+
 .container {
   width: 1440px;
   margin: 0 auto;
 }
 
 .btn {
-  background-color: #000;
+  outline: 0;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 40px;
+  cursor: pointer;
 }
 
 .heading-form {

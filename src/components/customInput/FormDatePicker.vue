@@ -2,13 +2,12 @@
   <div class="TextInput" :class="{ 'has-error': !!errorMessage }">
     <label :for="name">{{ label }}</label>
     <a-date-picker
-        v-model:value="dateValue"
-        :placeholder="placeholder"
-        @input="handleChange"
-        @blur="handleBlur"
-        format="DD/MM/YYYY"
-      />
-
+      v-model:value="dateValue"
+      :placeholder="placeholder"
+      @blur="handleBlur"
+      @input="handleChange"
+      format="DD/MM/YYYY"
+    />
     <p class="help-message" v-show="errorMessage">
       {{ errorMessage }}
     </p>
@@ -16,8 +15,11 @@
 </template>
 
 <script setup>
-import { toRef, defineProps } from "vue";
+import { ref, toRef, defineProps } from "vue";
 import { useField } from "vee-validate";
+import dayjs from 'dayjs'
+
+
 
 const props = defineProps([
   "value",
@@ -25,8 +27,6 @@ const props = defineProps([
   "label",
   "placeholder",
 ]);
-
-const emits = defineEmits(['change']);
 const name = toRef(props, "name");
 
 const {
@@ -34,10 +34,9 @@ const {
   errorMessage,
   handleBlur,
   handleChange,
-} = useField(name, undefined, {
+} = useField(name, {
   initialValue: props.value,
 });
-
 
 </script>
 

@@ -1,11 +1,12 @@
 <template>
   <FormToolbar />
   <Table
-    :columns="columns"
-    :data="newsStore.apiData"
-    :row-selection="rowSelection"
     id_row="id_post"
+    :columns="columns"
+    :row-selection="rowSelection"
+    :data="newsStore.apiData"
     @change="handleActive"
+    @handleEdit="handleEdit"
   />
 </template>
 
@@ -17,8 +18,10 @@ import FormToolbar from "./components/FormToolbar.vue";
 import Table from "@/components/Table/WrapperTable.vue";
 import APIs from "@/api/apiService";
 
-const newsStore = useNewsStore();
+import { useRouter } from "vue-router";
 
+const router = useRouter()
+const newsStore = useNewsStore();
 
 const fetchData = async () => {
   try {
@@ -29,8 +32,13 @@ const fetchData = async () => {
   }
 };
 
+
+const handleEdit = async (params) => {
+  router.push({ path: `/news/update/${params}` });
+} 
+
 const handleActive = async (data) => {
-  await  APIs.post("v1/posts/active", data)
+  await APIs.post("v1/posts/active", data)
   newsStore.setActive(data.ids, data.active)
 }
 
@@ -64,18 +72,29 @@ const columns = [
   {
     title: "Nội dung",
     dataIndex: "description",
-    width: "58%",
+    width: "50%",
   },
 
   {
     title: "Trạng thái",
     dataIndex: "active",
+    align: "center"
+  },
+
+  {
+    title: "Hành động",
+    dataIndex: "edit",
     align: "center",
     fixed: "right",
   },
 ];
 </script>
 
-<style>
-/* Your styles here */
+<style scoped lang="scss">
+::v-deep(.ant-pagination-item-active ) {
+  border-color: var(--bg-linear-primary);
+}
+::v-deep(.ant-pagination-item-active a) {
+    color: var(--bg-linear-primary);
+  }
 </style>
