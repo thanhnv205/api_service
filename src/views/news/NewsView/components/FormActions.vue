@@ -4,15 +4,14 @@
       <a-col :span="24">
         <div class="status">
           <TitlePage size="normal" title="Trạng thái" />
-
           <FormSwitch
             name="active"
             :checked="values.active"
-            v-bind="{ 'onUpdate:checked': handleSwitchChange }"
+            v-bind="{ 'onUpdate:checked': (value)  => setFieldValue('active', value) }"
           />
         </div>
       </a-col>
-
+      
       <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
         <InputField
           name="post_name"
@@ -40,6 +39,7 @@
          />
         <UploadFile
           apiEndpoint="v1/posts/upload-image"
+          :image-name="values.image_name"
           @changeFile="handleUpload"
         />
       </a-col>
@@ -137,10 +137,15 @@ const { handleSubmit, values, setFieldValue } = useForm({
 });
 
 watchEffect(() => {
-  const { updateDate } = newsStore;
-  if (Object.keys(updateDate).length > 0) {
-    Object.entries(updateDate).forEach(([key, value]) => {
-      setFieldValue(key, key === 'public_date' ? dayjs(value, 'DD/MM/YYYY') : value);
+  const { updateData } = newsStore;
+  if (Object.keys(updateData).length > 0) {
+    const convertData = {
+      ...updateData,
+      public_date: dayjs(updateData.public_date, 'DD/MM/YYYY'),
+    }
+    
+    Object.entries(convertData).forEach(([key, value]) => {
+      setFieldValue(key, value);
     });
   }
 });
@@ -148,10 +153,6 @@ watchEffect(() => {
 watch(values, () => {
   handleChangeSlug();
 });
-
-const handleSwitchChange = (isChecked) => {
-  setFieldValue("active", isChecked);
-};
 
 const handleChangeSlug = (event) => {
   if (event) {
@@ -170,7 +171,7 @@ const onSubmit = handleSubmit((data) => {
     public_date: dateView(data.public_date)
   }
   emits('handle', newData)
-  router.back();
+   router.back();
 });
 
 const editorData = ref('')

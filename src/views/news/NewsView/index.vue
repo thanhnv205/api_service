@@ -1,13 +1,16 @@
 <template>
-  <FormToolbar />
-  <Table
-    id_row="id_post"
-    :columns="columns"
-    :row-selection="rowSelection"
-    :data="newsStore.apiData"
-    @change="handleActive"
-    @handleEdit="handleEdit"
-  />
+  <LoadingPage :spinning="newsStore.loading">
+    <FormToolbar />
+    <Table
+      id_row="id_post"
+      :columns="columns"
+      :row-selection="rowSelection"
+      :data="newsStore.apiData"
+      @change="handleActive"
+      @handleEdit="handleEdit"
+    />
+  </LoadingPage>
+
 </template>
 
 <script setup>
@@ -19,27 +22,31 @@ import Table from "@/components/Table/WrapperTable.vue";
 import APIs from "@/api/apiService";
 
 import { useRouter } from "vue-router";
+import LoadingPage from "@/components/LoadingPage.vue";
+import Actions from "./actions";
 
 const router = useRouter()
 const newsStore = useNewsStore();
 
 const fetchData = async () => {
   try {
-    const { data } = await APIs.get("v1/posts");
-    newsStore.setApiData(data);
+    newsStore.loading = true
+    setTimeout(async () => {
+      const { data } = await APIs.get("v1/posts");
+      newsStore.setApiData(data);
+    }, 200)
   } catch (error) {
     console.error(error);
+    newsStore.loading = false
   }
 };
-
 
 const handleEdit = async (params) => {
   router.push({ path: `/news/update/${params}` });
 } 
 
 const handleActive = async (data) => {
-  await APIs.post("v1/posts/active", data)
-  newsStore.setActive(data.ids, data.active)
+  Actions.doActive(data.ids, data.active)
 }
 
 onMounted(() => {
@@ -50,8 +57,7 @@ const rowSelection = {
   onChange: (selectedRowKeys, selectedRows) => {
     console.log(
       `selectedRowKeys: ${selectedRowKeys}`,
-      "selectedRows: ",
-      selectedRows
+      "selectedRows: ",selectedRows
     );
   },
 };
@@ -59,7 +65,7 @@ const rowSelection = {
 const columns = [
   {
     title: "Tiêu đề",
-    width: "12%",
+    width: "20%",
     dataIndex: "post_name",
   },
   {
@@ -72,7 +78,7 @@ const columns = [
   {
     title: "Nội dung",
     dataIndex: "description",
-    width: "50%",
+    width: "40%",
   },
 
   {

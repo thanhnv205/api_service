@@ -1,5 +1,5 @@
 <template>
-  <div v-if="loading" class="wrapper-loading">
+  <div v-if="spinning" class="wrapper-loading">
     <a-spin />
   </div>
   <slot></slot>
@@ -7,6 +7,7 @@
 
 <script setup>
 import { ref } from "vue";
+defineProps(['spinning'])
 
 const loading = ref(false);
 </script>

@@ -15,6 +15,6 @@ const app = createApp(App)
 app.use(Antd)
 app.use(router)
 app.use(createPinia())
-app.use( CKEditor )
+app.use(CKEditor)
 
 app.mount('#app')

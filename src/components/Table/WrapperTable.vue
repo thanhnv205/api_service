@@ -10,7 +10,11 @@
       </template>
 
       <template v-if="column.dataIndex === 'active'">
-        <FormSwitch size="small" :checked="record.active" @change="handleChange([record.key], !record.active)" />
+        <FormSwitch
+          size="small" 
+          :checked="record.active"
+          v-bind="{ 'onUpdate:checked': (isChecked) => handleChange([record.key], isChecked)}"
+        />
       </template>
 
       <template v-if="column.dataIndex === 'edit'">
@@ -31,15 +35,18 @@ import { computed, defineProps } from "vue";
 import FormSwitch from "@/components/customInput/FormSwitch.vue";
 import { EditOutlined } from "@ant-design/icons-vue";
 
-const props = defineProps(["columns", "data", "id_row"]);
 const emits = defineEmits(['change', 'handleEdit'])
+const props = defineProps(["columns", "data", "id_row"]);
 
 const handleChange = (ids, active) => {
   emits('change', { ids, active })
 }
 
+
 const tableData = computed(() => {
-  return props.data.map((row, index) => {
+  const { data, loading } = props.data
+
+  return data.map((row, index) => {
     const rowData = {};
     props.columns.forEach((column) => {
       rowData[column.dataIndex] = row[column.dataIndex];

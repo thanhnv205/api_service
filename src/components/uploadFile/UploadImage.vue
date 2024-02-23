@@ -9,42 +9,53 @@
     @remove="handleRemove"
     @preview="handlePreview"
   >
+  <div v-if="fileList.length === 0">
+    <AreaChartOutlined />
+    <div style="margin-top: 8px">Upload</div>
+  </div>
+</a-upload>
 
-    <div v-if="fileList.length === 0">
-      <AreaChartOutlined />
-      <div style="margin-top: 8px">Upload</div>
-    </div>
-
-  </a-upload>
-
-  <a-modal :open="previewVisible" :footer="null" @cancel="handleCancel">
+  <a-modal
+    :open="previewVisible"
+    :footer="null"
+    @cancel="handleCancel"
+  >
     <img alt="example" style="width: 100%" :src="previewImage" />
   </a-modal>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { AreaChartOutlined } from "@ant-design/icons-vue";
 import axios from 'axios';
 
-const { apiEndpoint } = defineProps(['apiEndpoint'])
+const props = defineProps(['apiEndpoint', 'imageName'])
 const emits = defineEmits(['changeFile'])
 
 const previewImage = ref('');
+
 const fileList = ref([]);
 const previewVisible = ref(false)
 
+watch(() => props.imageName, (filename) => {
+  if (filename) {
+    fileList.value = [{
+      status: 'done',
+      url: `http://localhost:4017/images/posts/${filename}`,
+      filename
+    }];
+  }
+});
 
 const handleCancel = () => {
   previewVisible.value = false;
 };
 
-
 const uploadImage = async (file) => {
   const formData = new FormData();
   formData.append('image', file);
   try {
-    const { data } = await axios.post(`http://localhost:4017/${apiEndpoint}`, formData);
+    const { data } = await axios.post(`http://localhost:4017/${props.apiEndpoint}`, formData);
     return data
   } catch (error) { throw error  }
 };
@@ -61,14 +72,16 @@ const handleUpload = async ({ file, onSuccess }) => {
 
 
 const handleRemove = async ({response}) => {
-  const { filename } = response
-  await axios.post('http://localhost:4017/v1/posts/delete-image',{file: filename})
+  if (response) {
+    const { filename } = response
+    await axios.post('http://localhost:4017/v1/posts/delete-image',{file: filename})
+  }
   emits('changeFile', null)
 };
 
 
-const handlePreview = async ({response}) => {
-  const { url } = response
+const handlePreview = async (file) => {
+  const { url } = file
   previewImage.value = url
   previewVisible.value = true;
 };

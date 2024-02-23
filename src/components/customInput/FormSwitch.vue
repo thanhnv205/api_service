@@ -4,11 +4,12 @@
     :checked="checked"
     :size="size"
     class="custom-switch"
+    @change="$emit('update:checked', $event)"
   />
 </template>
 
 <script setup>
-const { name, size, checked } = defineProps(["name", "size", "checked"]);
+const props = defineProps(["name", "size", "checked"]);
 
 </script>
 
