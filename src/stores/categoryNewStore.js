@@ -1,16 +1,14 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia"
 
-export const useNewsStore = defineStore('news', {
+export const useCategoryNewStore = defineStore('categoryNews', {
   state: () => ({
     apiData: {
       data: [],
-      total: 0,
+      total: 0
     },
-    loading: false,
-    updateData: {},
     selectedRows: [],
     selectedRowKeys: [],
-    category: []
+    loading: false,
   }),
 
   actions: {
@@ -37,22 +35,5 @@ export const useNewsStore = defineStore('news', {
       })
       this.apiData.data = newData
     },
-
-    setCreateData(data) {
-      this.category = data
-    },
-
-    setUpdateData({ updateData, category }) {
-      console.log(updateData);
-      this.updateData = updateData
-      this.category = category
-      this.loading = false
-    },
-
-    setDelete(ids) {
-      const { data } = this.apiData
-      const newData = data?.filter(({ _id }) => !ids.includes(_id))
-      this.apiData.data = newData
-    }
   },
 })

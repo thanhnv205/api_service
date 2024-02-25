@@ -1,11 +1,11 @@
 <template>
-  {{ inputValue }}
   <div class="TextInput"
     :class="{ 'has-error': !!errorMessage, success: meta.valid }">
     <span class="label">{{ label }}</span>
-    <a-select :mode="mode" :name="name" class="custom-select"
+    <a-select mode="multiple" :name="name" class="custom-select"
       v-model:value="inputValue" show-search :placeholder="label"
-      :options="options" :filter-option="filterOption" @change="handleChange" />
+      :options="options" :filter-option="filterOption" @change="handleChange"
+      @popupScroll="popupScroll" />
 
     <p class="help-message" v-show="errorMessage || meta.valid">
       {{ errorMessage || successMessage }}
@@ -34,10 +34,8 @@ const {
   handleBlur,
   handleChange,
   meta,
-} = useField(name, undefined, {
-  initialValue: props.value,
-});
-console.log(props);
+} = useField(name);
+
 const options = computed(() => {
   const { options } = props
 
@@ -108,6 +106,12 @@ const filterOption = (input, option) => {
 
 ::v-deep(.ant-select-arrow) {
   font-size: 15px !important;
+}
+
+::v-deep(.ant-select-selection-item) {
+  display: flex;
+  align-items: center;
+  padding: 3px 5px !important
 }
 
 .TextInput.has-error input {

@@ -3,8 +3,10 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import APIs from "@/api/apiService";
 import FormActions from "./components/FormActions.vue";
+import actions from "./actions";
 
 const handleCreated = async (data) => {
   try {
@@ -13,4 +15,8 @@ const handleCreated = async (data) => {
     console.error(error);
   }
 }
+
+onMounted(() => {
+  actions.doGetCreate()
+})
 </script>

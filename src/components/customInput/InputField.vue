@@ -33,7 +33,7 @@ const {
   meta,
 } = useField(name, undefined, {
   initialValue: props.value,
-});
+})
 </script>
 
 <style scoped>

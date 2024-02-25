@@ -1,31 +1,20 @@
 <template>
-  <a-upload
-    v-model:file-list="fileList"
-    name="image"
-    list-type="picture-card"
-    class="image-uploader"
-    :show-upload-list="fileList.length > 0 && fileList[0].status === 'done'"
-    :custom-request="handleUpload"
-    @remove="handleRemove"
-    @preview="handlePreview"
-  >
-  <div v-if="fileList.length === 0">
-    <AreaChartOutlined />
-    <div style="margin-top: 8px">Upload</div>
-  </div>
-</a-upload>
+  <a-upload v-model:file-list="fileList" name="image" list-type="picture-card" class="image-uploader"
+    :show-upload-list="fileList.length > 0 && fileList[0].status === 'done'" :custom-request="handleUpload"
+    @remove="handleRemove" @preview="handlePreview">
+    <div v-if="fileList.length === 0">
+      <AreaChartOutlined />
+      <div style="margin-top: 8px">Upload</div>
+    </div>
+  </a-upload>
 
-  <a-modal
-    :open="previewVisible"
-    :footer="null"
-    @cancel="handleCancel"
-  >
+  <a-modal :open="previewVisible" :footer="null" @cancel="handleCancel">
     <img alt="example" style="width: 100%" :src="previewImage" />
   </a-modal>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { AreaChartOutlined } from "@ant-design/icons-vue";
 import axios from 'axios';
 
@@ -37,12 +26,14 @@ const previewImage = ref('');
 const fileList = ref([]);
 const previewVisible = ref(false)
 
-watch(() => props.imageName, (filename) => {
-  if (filename) {
+
+
+watchEffect(() => {
+  if (props.imageName) {
     fileList.value = [{
       status: 'done',
-      url: `http://localhost:4017/images/posts/${filename}`,
-      filename
+      url: `http://localhost:4017/images/posts/${props.imageName}`,
+      filename: props.imageName
     }];
   }
 });
@@ -57,7 +48,7 @@ const uploadImage = async (file) => {
   try {
     const { data } = await axios.post(`http://localhost:4017/${props.apiEndpoint}`, formData);
     return data
-  } catch (error) { throw error  }
+  } catch (error) { throw error }
 };
 
 const handleUpload = async ({ file, onSuccess }) => {
@@ -71,10 +62,10 @@ const handleUpload = async ({ file, onSuccess }) => {
 };
 
 
-const handleRemove = async ({response}) => {
+const handleRemove = async ({ response }) => {
   if (response) {
     const { filename } = response
-    await axios.post('http://localhost:4017/v1/posts/delete-image',{file: filename})
+    await axios.post('http://localhost:4017/v1/posts/delete-image', { file: filename })
   }
   emits('changeFile', null)
 };
@@ -91,10 +82,12 @@ const handlePreview = async (file) => {
 <style scoped lang="scss">
 .image-uploader {
   overflow: hidden;
+
   ::v-deep(.ant-upload-list-item-thumbnail img) {
     object-fit: cover !important;
   }
 }
+
 ::v-deep(.ant-upload.ant-upload-select),
 ::v-deep(.ant-upload-list-item-container) {
   width: 100% !important;
@@ -115,5 +108,4 @@ const handlePreview = async (file) => {
   margin-top: 8px;
   color: #666;
 }
-
 </style>

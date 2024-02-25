@@ -2,12 +2,8 @@
   <FormToolbar />
   <FormFilter />
   <LoadingPage>
-    <Table
-      :columns="columns"
-      :data="newsStore.apiData"
-      :row-selection="rowSelection"
-      id_row="id_post"
-    />
+    <Table :columns="columns" :data="categoryNews.apiData" :row-selection="rowSelection" id_row="id_post"
+      @change="handleActive" />
   </LoadingPage>
 </template>
 
@@ -21,25 +17,15 @@ import Table from "@/components/Table/WrapperTable.vue";
 import FormFilter from "./components/FormFilter.vue";
 import LoadingPage from "@/components/LoadingPage.vue";
 
-import { useNewsStore } from "@/stores/newsStore";
-import APIs from "@/api/apiService";
+import { useCategoryNewStore } from '@/stores/categoryNewStore'
+import actions from "./actions";
 
 const route = useRoute();
 
-const newsStore = useNewsStore();
-
-const fetchData = async (params) => {
-  try {
-    const { data } = await APIs.get("v1/category-posts", { params });
-    newsStore.setApiData(data);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
+const categoryNews = useCategoryNewStore()
 
 onMounted(() => {
-  fetchData();
+  actions.doGetData()
 });
 
 watch(route, () => {
@@ -49,13 +35,13 @@ watch(route, () => {
 
 const rowSelection = {
   onChange: (selectedRowKeys, selectedRows) => {
-    console.log(
-      `selectedRowKeys: ${selectedRowKeys}`,
-      "selectedRows: ",
-      selectedRows
-    );
-  },
+    actions.doSelectedRows({ selectedRowKeys, selectedRows })
+  }
 };
+
+const handleActive = async (data) => {
+  actions.doActive(data.ids, data.active)
+}
 
 const columns = [
   {

@@ -23,7 +23,7 @@ const router = createRouter({
         {
           path: '/news/posts/create',
           name: 'create news',
-          component: () => import('@/views/news/NewsView/CreatePage.vue')
+          component: () => import('@/views/news/NewsView/CreatePage.vue'),
         },
 
         {

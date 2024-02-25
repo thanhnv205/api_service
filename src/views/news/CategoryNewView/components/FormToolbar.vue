@@ -9,20 +9,15 @@
     </a-col>
 
     <a-col :span="10" :offset="6" class="toolbar-left">
-      <FormButton
-        @click="handleCreate"
-        text="Thêm mới"
-        type="primary"
-        size="large"
-      >
+      <FormButton @click="handleCreate" text="Thêm mới" type="primary" size="large">
         <template #icon>
           <PlusCircleOutlined />
         </template>
       </FormButton>
 
-      <FormButton text="Chỉnh sửa" type="primary" size="large">
+      <FormButton text="Xóa" type="primary" size="large" @click="handleDelelte">
         <template #icon>
-          <EditOutlined />
+          <DeleteOutlined />
         </template>
       </FormButton>
     </a-col>
@@ -30,22 +25,29 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
 import FormButton from "@/components/customInput/FormButton.vue";
 import {
   PlusCircleOutlined,
-  EditOutlined,
+  DeleteOutlined,
   FilterOutlined,
 } from "@ant-design/icons-vue";
 
-import { useRouter } from "vue-router";
 import { useVisibleModal } from "@/stores/visibleModal";
-const modal = useVisibleModal();
+import { useCategoryNewStore } from '@/stores/categoryNewStore'
 
+const categoryNews = useCategoryNewStore()
+
+const modal = useVisibleModal();
 const router = useRouter();
 
 const handleCreate = () => {
   router.push({ name: "create category news" });
 };
+
+const handleDelelte = () => {
+  console.log(categoryNews.selectedRowKeys);
+}
 </script>
 
 <style lang="scss" scoped>

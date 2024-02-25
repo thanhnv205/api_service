@@ -1,16 +1,9 @@
 <template>
   <LoadingPage :spinning="newsStore.loading">
     <FormToolbar />
-    <Table
-      id_row="id_post"
-      :columns="columns"
-      :row-selection="rowSelection"
-      :data="newsStore.apiData"
-      @change="handleActive"
-      @handleEdit="handleEdit"
-    />
+    <Table id_row="id_post" :columns="columns" :row-selection="rowSelection" :data="newsStore.apiData"
+      @change="handleActive" @handleEdit="handleEdit" />
   </LoadingPage>
-
 </template>
 
 <script setup>
@@ -23,43 +16,27 @@ import APIs from "@/api/apiService";
 
 import { useRouter } from "vue-router";
 import LoadingPage from "@/components/LoadingPage.vue";
-import Actions from "./actions";
+import actions from "./actions";
 
 const router = useRouter()
 const newsStore = useNewsStore();
 
-const fetchData = async () => {
-  try {
-    newsStore.loading = true
-    setTimeout(async () => {
-      const { data } = await APIs.get("v1/posts");
-      newsStore.setApiData(data);
-    }, 200)
-  } catch (error) {
-    console.error(error);
-    newsStore.loading = false
-  }
-};
-
 const handleEdit = async (params) => {
   router.push({ path: `/news/update/${params}` });
-} 
+}
 
 const handleActive = async (data) => {
-  Actions.doActive(data.ids, data.active)
+  actions.doActive(data.ids, data.active)
 }
 
 onMounted(() => {
-  fetchData();
+  actions.doGetData()
 });
 
 const rowSelection = {
   onChange: (selectedRowKeys, selectedRows) => {
-    console.log(
-      `selectedRowKeys: ${selectedRowKeys}`,
-      "selectedRows: ",selectedRows
-    );
-  },
+    actions.doSelectedRows({ selectedRowKeys, selectedRows })
+  }
 };
 
 const columns = [
@@ -97,10 +74,11 @@ const columns = [
 </script>
 
 <style scoped lang="scss">
-::v-deep(.ant-pagination-item-active ) {
+::v-deep(.ant-pagination-item-active) {
   border-color: var(--bg-linear-primary);
 }
+
 ::v-deep(.ant-pagination-item-active a) {
-    color: var(--bg-linear-primary);
-  }
+  color: var(--bg-linear-primary);
+}
 </style>

@@ -12,6 +12,22 @@ export const confirm = (title, content, func) => {
     onOk: () => {
       func()
     },
-    onCancel: () => {}
+    onCancel: () => { }
   })
 }
+
+export const warning = (title, content) => {
+  Modal.warning({
+    title,
+    content,
+  });
+};
+
+export const success = (title, func) => {
+  Modal.success({
+    title,
+    onOk: () => {
+      func()
+    },
+  });
+};
