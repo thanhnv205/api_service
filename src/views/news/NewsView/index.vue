@@ -1,8 +1,8 @@
 <template>
   <LoadingPage :spinning="newsStore.loading">
     <FormToolbar />
-    <Table id_row="id_post" :columns="columns" :row-selection="rowSelection" :data="newsStore.apiData"
-      @change="handleActive" @handleEdit="handleEdit" />
+    <Table id_row="id_post" :columns="columns" :row-selection="rowSelection"
+      :data="newsStore.apiData" @change="handleActive" @handleEdit="handleEdit" />
   </LoadingPage>
 </template>
 
@@ -12,7 +12,6 @@ import { useNewsStore } from "@/stores/newsStore";
 
 import FormToolbar from "./components/FormToolbar.vue";
 import Table from "@/components/Table/WrapperTable.vue";
-import APIs from "@/api/apiService";
 
 import { useRouter } from "vue-router";
 import LoadingPage from "@/components/LoadingPage.vue";
@@ -42,20 +41,24 @@ const rowSelection = {
 const columns = [
   {
     title: "Tiêu đề",
-    width: "20%",
+    width: "18%",
     dataIndex: "post_name",
   },
   {
     title: "Hình ảnh",
     width: "15%",
-    align: "center",
     dataIndex: "image_name",
     url: 'http://localhost:4017/images/posts'
   },
   {
+    title: "Danh mục",
+    width: "15%",
+    dataIndex: "category_name",
+  },
+  {
     title: "Nội dung",
     dataIndex: "description",
-    width: "40%",
+    width: "28%",
   },
 
   {
