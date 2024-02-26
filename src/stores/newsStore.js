@@ -4,7 +4,7 @@ export const useNewsStore = defineStore('news', {
   state: () => ({
     apiData: {
       data: [],
-      total: 0,
+      total: 0
     },
     loading: false,
     updateData: {},
@@ -43,7 +43,6 @@ export const useNewsStore = defineStore('news', {
     },
 
     setUpdateData({ updateData, category }) {
-      console.log(updateData);
       this.updateData = updateData
       this.category = category
       this.loading = false
@@ -54,5 +53,5 @@ export const useNewsStore = defineStore('news', {
       const newData = data?.filter(({ _id }) => !ids.includes(_id))
       this.apiData.data = newData
     }
-  },
+  }
 })

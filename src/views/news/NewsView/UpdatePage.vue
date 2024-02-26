@@ -1,6 +1,6 @@
 <template>
   <LoadingPage :spinning="newsStore.loading">
-    <FormActions @handle="handleUpdated" />
+    <FormActions @handle="handleUpdated" :params-id="params._id" />
   </LoadingPage>
 </template>
 

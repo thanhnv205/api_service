@@ -19,15 +19,22 @@ export const confirm = (title, content, func) => {
 export const warning = (title, content) => {
   Modal.warning({
     title,
-    content,
-  });
-};
+    content
+  })
+}
 
 export const success = (title, func) => {
   Modal.success({
     title,
     onOk: () => {
       func()
-    },
-  });
-};
+    }
+  })
+}
+
+export const error = (title, content) => {
+  Modal.error({
+    title,
+    content
+  })
+}

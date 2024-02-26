@@ -1,6 +1,7 @@
 import APIs from '@/api/apiService'
 import router from '@/router'
 import { confirm, warning, success } from '@/shared/PopupMessage'
+import Errors from '@/shared/error'
 import { useNewsStore } from '@/stores/newsStore'
 
 const newsStore = useNewsStore()
@@ -10,12 +11,11 @@ class actions {
     try {
       newsStore.loading = true
       setTimeout(async () => {
-        const { data } = await APIs.get("v1/posts", params);
-        newsStore.setApiData(data);
+        const { data } = await APIs.get('v1/posts', params)
+        newsStore.setApiData(data)
       }, 200)
     } catch (error) {
-      console.error(error);
-      newsStore.loading = false
+      throw new Errors(error)
     }
   }
 
@@ -36,10 +36,21 @@ class actions {
 
   static async doGetCreate() {
     try {
-      const { data } = await APIs.get("v1/category-posts", { active: true })
+      const { data } = await APIs.get('v1/category-posts', { active: true })
       newsStore.setCreateData(data)
     } catch (error) {
-      console.log(error);
+      throw new Errors(error)
+    }
+  }
+
+  static async doCreate(data) {
+    try {
+      await APIs.post('v1/posts', data)
+      success('Xử lý thành công!', () => {
+        router.back()
+      })
+    } catch (error) {
+      throw new Errors(error)
     }
   }
 
@@ -49,25 +60,25 @@ class actions {
       setTimeout(async () => {
         const [updateData, category] = await Promise.all([
           APIs.get(`v1/posts/${params}`),
-          APIs.get("v1/category-posts", { active: true })
-        ]).then((response) => response.map(({ data }) => data));
+          APIs.get('v1/category-posts', { active: true })
+        ]).then((response) => response.map(({ data }) => data))
 
-        newsStore.setUpdateData({ updateData, category });
+        newsStore.setUpdateData({ updateData, category })
       }, 200)
     } catch (error) {
-      console.error(error);
       newsStore.loading = false
+      throw new Errors(error)
     }
   }
 
   static async doUpdate(params, data) {
     try {
-      await APIs.put(`v1/posts/${params}`, data);
+      await APIs.put(`v1/posts/${params}`, data)
       success('Xử lý thành công!', () => {
-        router.back();
+        router.back()
       })
     } catch (error) {
-      console.error(error)
+      throw new Errors(error)
     }
   }
 

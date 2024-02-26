@@ -78,6 +78,7 @@ import { useNewsStore } from "@/stores/newsStore";
 import FormSelectMultiple from "@/components/customInput/FormSelectMultiple.vue";
 
 const newsStore = useNewsStore();
+const props = defineProps(['paramsId'])
 const emits = defineEmits(['handle'])
 
 const validationSchema = Yup.object().shape({
@@ -104,7 +105,7 @@ const { handleSubmit, values, setFieldValue } = useForm({
 
 watchEffect(() => {
   const { updateData } = newsStore;
-  if (Object.keys(updateData).length > 0) {
+  if (Object.keys(updateData).length > 0 && props.paramsId) {
     const convertData = {
       ...updateData,
       public_date: dayjs(updateData.public_date, 'DD/MM/YYYY'),
@@ -116,9 +117,6 @@ watchEffect(() => {
   }
 });
 
-const popupScroll = () => {
-  console.log('popupScroll');
-};
 
 watch(values, () => {
   handleChangeSlug();
