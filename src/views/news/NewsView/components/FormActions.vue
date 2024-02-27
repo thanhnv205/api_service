@@ -20,7 +20,7 @@
       </a-col>
 
       <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
-        <FormSelectMultiple name="id_post_category" label="Danh mục bài viết"
+        <FormSelectMultiple name="category_post_id" label="Danh mục bài viết"
           placeholder="Danh mục bài viết" :options="newsStore.category" />
       </a-col>
 
@@ -93,7 +93,7 @@ const { handleSubmit, values, setFieldValue } = useForm({
   initialValues: {
     active: true,
     slug: "",
-    id_post_category: [],
+    category_post_id: [],
     post_name: "",
     public_date: null,
     description: "",
